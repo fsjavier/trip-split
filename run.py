@@ -1,5 +1,6 @@
 import gspread
 from google.oauth2.service_account import Credentials
+import os
 from tabulate import tabulate
 from pprint import pprint
 
@@ -38,12 +39,18 @@ def welcome_menu():
         if validated_choice_bool:
             try:
                 if validated_choice_num not in [1, 2]:
-                    raise ValueError(f"Invalid number, you selected {user_choice}. Please select 1 or 2")
+                    raise ValueError(
+                        f"Invalid number, you selected {user_choice}. Please select 1 or 2"
+                    )
             except ValueError as e:
                 print(f"{e}. Please try again.\n")
             else:
                 if validated_choice_num == 1:
-                    print(f"You chose {user_choice}")
+                    os.system('clear')
+                    trip_name = input("Enter the name of the trip\n")
+                    print("Creating new trip...")
+                    create_new_trip(trip_name)
+                    print(f"{trip_name} successfully created!")
                     break
                 elif validated_choice_num == 2:
                     print(f"You chose {user_choice}")
@@ -63,6 +70,23 @@ def validated_number(data):
         print(f"Invalid data: {e}. Please try again.\n")
         return (False, 0)
     return (True, new_number)
+
+
+def create_new_trip(name):
+    """
+    Create a new worksheet for the trip with the name provided by the user.
+    The worksheet is populated with the column headers. (TBD)
+    A loop asks the user to provide expenses, calling the appropiate function. (TBD)
+    """
+    SHEET.add_worksheet(title=name, rows=100, cols=20)
+    print("Do you want to add an expense?")
+
+
+def create_expense():
+    """
+    Creates an expense
+    """
+    pass
 
 
 welcome_menu()
