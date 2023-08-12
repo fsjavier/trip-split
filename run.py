@@ -75,18 +75,32 @@ def validated_number(data):
 def create_new_trip(name):
     """
     Create a new worksheet for the trip with the name provided by the user.
-    The worksheet is populated with the column headers. (TBD)
-    A loop asks the user to provide expenses, calling the appropiate function. (TBD)
+    The worksheet is populated with the column headers.
+    A loop asks the user to provide expenses, calling the appropiate function.
     """
     SHEET.add_worksheet(title=name, rows=100, cols=20)
-    print("Do you want to add an expense?")
+    worksheet = SHEET.worksheet(name)
+    header = ["Date", "Name", "Concept", "Cost", "Currency", "Description"]
+    worksheet.append_row(header)
+
+    while True:
+        add_expense = input("Do you want to add an expense? (Y / N):\n")
+        try:
+            if add_expense.lower() not in ["y", "n"]:
+                raise ValueError(f"You selected {add_expense}. Please select Y or N")
+        except ValueError as e:
+            print(f"Invalid option: {e}")
+        else:
+            if add_expense.lower() == "n":
+                break
+            elif add_expense.lower() == "y":
+                create_expense()
 
 
 def create_expense():
     """
     Creates an expense
     """
-    pass
 
 
 welcome_menu()
