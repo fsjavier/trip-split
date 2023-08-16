@@ -2,7 +2,7 @@ import gspread
 from google.oauth2.service_account import Credentials
 import os
 from tabulate import tabulate
-from pprint import pprint
+from datetime import datetime
 
 # Every Google account has as an IAM (Identity and Access Management)
 # configuration which specifies what the user has access to.
@@ -51,7 +51,7 @@ def welcome_menu():
 
 def validate_user_choice(data, choices):
     """
-    Check that the data provided is a number within 
+    Check that the data provided is a number within
     the possible options to choose from.
     Returns a tuple with:
         - A boolean indicating if the data provided is a number.
@@ -94,24 +94,23 @@ def create_new_trip(name):
             if add_expense.lower() == "n":
                 break
             elif add_expense.lower() == "y":
-                break
-                # create_expense()
+                create_expense()
 
 
-# class Expense:
-#     def __init__(self, date, name, concept, cost, currency, description=""):
-#         self.date = date
-#         self.name = name
-#         self.concept = concept
-#         self.cost = cost
-#         self.currency = currency
-#         self.description = description
+class Expense:
+    def __init__(self, date, name, concept, cost, currency, description=""):
+        self.date = date
+        self.name = name
+        self.concept = concept
+        self.cost = cost
+        self.currency = currency
+        self.description = description
 
 
-# def create_expense():
-#     """
-#     Creates an expense
-#     """
+def create_expense():
+    """
+    Creates an expense
+    """
     # concepts = {
     #     1: "Travel",
     #     2: "Food",
@@ -124,7 +123,7 @@ def create_new_trip(name):
     #     3: "USD"
     # }
 
-    # date = get_date()
+    date = get_date()
     # name
     # concept
     # cost
@@ -136,15 +135,26 @@ def create_new_trip(name):
     # write_expense(expense)
 
 
-# def get_date():
-#     date = input("Enter date in the following format dd/mm/yyyy:\n")
-#     print(date)
+def get_date():
+    date_format = '%d/%m/%Y'
+
+    while True:
+        try:
+            date = input("Enter date in the following format dd/mm/yyyy or press 'C' to cancel:\n")
+            if date.lower() == "c":
+                os.system('clear')
+                welcome_menu()
+            else:
+                date_obj = datetime.strptime(date, date_format)
+                break
+        except ValueError:
+            print("The date entered is not valid, please try again")
+
+    return date_obj
 
 
-
-# def write_expense(expense):
-#     pass
+def write_expense(expense):
+    pass
 
 
 welcome_menu()
-# create_expense()
