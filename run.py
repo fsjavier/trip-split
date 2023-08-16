@@ -110,12 +110,6 @@ def create_expense():
     """
     Creates an expense
     """
-    # concepts = {
-    #     1: "Travel",
-    #     2: "Food",
-    #     3: "Other"
-    # }
-
     # currencies = {
     #     1: "EUR",
     #     2: "GBP",
@@ -124,7 +118,7 @@ def create_expense():
 
     date = get_date()
     name = get_name()
-    # concept
+    concept = get_concept()
     # cost
     # currency
 
@@ -175,6 +169,34 @@ def get_name():
             print("The name entered is not valid, please try again")
 
     return name
+
+
+def get_concept():
+    """
+    Get input from the user from the list of options.
+    """
+    concepts = {
+        1: "Travel",
+        2: "Meals",
+        3: "Accomodation",
+        4: "Supermarket",
+        5: "Shopping",
+        6: "Other"
+    }
+    concepts_headers = ["Code", "Concept"]
+
+    print("Select one of the following code options (1 to 6)")
+    print(tabulate([(str(k), v) for k, v in concepts.items()], headers=concepts_headers, tablefmt="mixed_grid"))
+
+    while True:
+        user_choice = input("Example: '1' or press 'C' to cancel:\n")
+        validated_choice = validate_user_choice(user_choice, range(1, 7))
+        validated_choice_bool, validated_choice_num = validated_choice
+        if user_choice.lower() == "c":
+            os.system('clear')
+            welcome_menu()
+        elif validated_choice_bool:
+            return concepts[validated_choice_num]
 
 
 def write_expense(expense):
