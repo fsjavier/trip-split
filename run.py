@@ -63,7 +63,7 @@ def validate_user_choice(data, choices):
         choices_str_list = ", ".join(choices_str)
         if new_number not in choices:
             raise ValueError(
-                f"You selected {new_number}.\nSelect one of the following numbers: {choices_str_list}"
+                f"You selected {new_number}.\nSelect one of the following options: {choices_str_list}"
             )
     except ValueError as e:
         print(f"Invalid data: {e}")
@@ -80,7 +80,7 @@ def create_new_trip(name):
     """
     SHEET.add_worksheet(title=name, rows=100, cols=20)
     worksheet = SHEET.worksheet(name)
-    header = ["Date", "Name", "Concept", "Cost", "Currency", "Description"]
+    header = ["Date", "Name", "Concept", "Cost", "Currency"]
     worksheet.append_row(header)
 
     while True:
@@ -98,13 +98,12 @@ def create_new_trip(name):
 
 
 class Expense:
-    def __init__(self, date, name, concept, cost, currency, description=""):
+    def __init__(self, date, name, concept, cost, currency):
         self.date = date
         self.name = name
         self.concept = concept
         self.cost = cost
         self.currency = currency
-        self.description = description
 
 
 def create_expense():
@@ -124,23 +123,28 @@ def create_expense():
     # }
 
     date = get_date()
-    # name
+    name = get_name()
     # concept
     # cost
     # currency
-    # description
 
-    # expense = Expense(date, name, concept, cost, currency, description)
+    # expense = Expense(date, name, concept, cost, currency)
 
     # write_expense(expense)
 
 
 def get_date():
+    """
+    Get date input from the user and format it to date.
+    Give the possibility to cancel the process.
+    If the data entered is invalid ask again.
+    """
     date_format = '%d/%m/%Y'
 
     while True:
         try:
-            date = input("Enter date in the following format dd/mm/yyyy or press 'C' to cancel:\n")
+            print("Enter date in the following format dd/mm/yyyy")
+            date = input("Example: 31/06/2023 or press 'C' to cancel:\n")
             if date.lower() == "c":
                 os.system('clear')
                 welcome_menu()
@@ -151,6 +155,26 @@ def get_date():
             print("The date entered is not valid, please try again")
 
     return date_obj
+
+
+def get_name():
+    """
+    Get input from the user for the name of the expense
+    Give the possibility to cancel the process.
+    If the data entered is invalid ask again.
+    """
+    while True:
+        try:
+            print("Enter a name for the expense")
+            name = input("Example: 'Cinema tickets' or press 'C' to cancel:\n")
+            if name.lower() == "c":
+                os.system('clear')
+                welcome_menu()
+            break
+        except ValueError:
+            print("The name entered is not valid, please try again")
+
+    return name
 
 
 def write_expense(expense):
