@@ -34,41 +34,41 @@ def welcome_menu():
 
     while True:
         user_choice = input("Please, select your prefered option (1 or 2):\n")
-        validated_choice = validated_number(user_choice)
+        validated_choice = validate_user_choice(user_choice, range(1, 3))
         validated_choice_bool, validated_choice_num = validated_choice
         if validated_choice_bool:
-            try:
-                if validated_choice_num not in [1, 2]:
-                    raise ValueError(
-                        f"Invalid number, you selected {user_choice}. Please select 1 or 2"
-                    )
-            except ValueError as e:
-                print(f"{e}. Please try again.\n")
-            else:
-                if validated_choice_num == 1:
-                    os.system('clear')
-                    trip_name = input("Enter the name of the trip\n")
-                    print("Creating new trip...")
-                    create_new_trip(trip_name)
-                    print(f"{trip_name} successfully created!")
-                    break
-                elif validated_choice_num == 2:
-                    print(f"You chose {user_choice}")
-                    break
+            if validated_choice_num == 1:
+                os.system('clear')
+                trip_name = input("Enter the name of the trip\n")
+                print("Creating new trip...")
+                create_new_trip(trip_name)
+                print(f"{trip_name} successfully created!")
+                break
+            elif validated_choice_num == 2:
+                print(f"You chose {user_choice}")
+                break
 
 
-def validated_number(data):
+def validate_user_choice(data, choices):
     """
-    Check that the data provided is a number.
+    Check that the data provided is a number within 
+    the possible options to choose from.
     Returns a tuple with:
         - A boolean indicating if the data provided is a number.
         - The value provided converted to an integer.
     """
     try:
         new_number = int(data)
+        choices_str = [str(num) for num in choices]
+        choices_str_list = ", ".join(choices_str)
+        if new_number not in choices:
+            raise ValueError(
+                f"You selected {new_number}.\nSelect one of the following numbers: {choices_str_list}"
+            )
     except ValueError as e:
-        print(f"Invalid data: {e}. Please try again.\n")
+        print(f"Invalid data: {e}")
         return (False, 0)
+
     return (True, new_number)
 
 
@@ -94,13 +94,57 @@ def create_new_trip(name):
             if add_expense.lower() == "n":
                 break
             elif add_expense.lower() == "y":
-                create_expense()
+                break
+                # create_expense()
 
 
-def create_expense():
-    """
-    Creates an expense
-    """
+# class Expense:
+#     def __init__(self, date, name, concept, cost, currency, description=""):
+#         self.date = date
+#         self.name = name
+#         self.concept = concept
+#         self.cost = cost
+#         self.currency = currency
+#         self.description = description
+
+
+# def create_expense():
+#     """
+#     Creates an expense
+#     """
+    # concepts = {
+    #     1: "Travel",
+    #     2: "Food",
+    #     3: "Other"
+    # }
+
+    # currencies = {
+    #     1: "EUR",
+    #     2: "GBP",
+    #     3: "USD"
+    # }
+
+    # date = get_date()
+    # name
+    # concept
+    # cost
+    # currency
+    # description
+
+    # expense = Expense(date, name, concept, cost, currency, description)
+
+    # write_expense(expense)
+
+
+# def get_date():
+#     date = input("Enter date in the following format dd/mm/yyyy:\n")
+#     print(date)
+
+
+
+# def write_expense(expense):
+#     pass
 
 
 welcome_menu()
+# create_expense()
