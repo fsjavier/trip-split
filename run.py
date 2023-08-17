@@ -119,7 +119,7 @@ def create_expense():
     date = get_date()
     name = get_name()
     concept = get_concept()
-    # cost
+    cost = get_cost()
     # currency
 
     # expense = Expense(date, name, concept, cost, currency)
@@ -153,7 +153,7 @@ def get_date():
 
 def get_name():
     """
-    Get input from the user for the name of the expense
+    Get input from the user for the name of the expense.
     Give the possibility to cancel the process.
     If the data entered is invalid ask again.
     """
@@ -174,6 +174,8 @@ def get_name():
 def get_concept():
     """
     Get input from the user from the list of options.
+    Give the possibility to cancel the process.
+    If the data entered is invalid ask again.
     """
     concepts = {
         1: "Travel",
@@ -186,7 +188,7 @@ def get_concept():
     concepts_headers = ["Code", "Concept"]
 
     print("Select one of the following code options (1 to 6)")
-    print(tabulate([(str(k), v) for k, v in concepts.items()], headers=concepts_headers, tablefmt="mixed_grid"))
+    print(tabulate([(str(code), concept) for code, concept in concepts.items()], headers=concepts_headers, tablefmt="mixed_grid"))
 
     while True:
         user_choice = input("Example: '1' or press 'C' to cancel:\n")
@@ -197,6 +199,25 @@ def get_concept():
             welcome_menu()
         elif validated_choice_bool:
             return concepts[validated_choice_num]
+
+
+def get_cost():
+    """
+    Get input from the user for the cost.
+    Give the possibility to cancel the process.
+    If the data entered is invalid ask again.
+    """
+    print("Enter a cost for the expense")
+    while True:
+        try:
+            cost = input("Example: '19.95' or press 'C' to cancel:\n")
+            if cost.lower() == "c":
+                os.system('clear')
+                welcome_menu()
+            cost_float = float(cost)
+            return cost_float
+        except ValueError:
+            print("The cost entered is not valid, please try again")
 
 
 def write_expense(expense):
