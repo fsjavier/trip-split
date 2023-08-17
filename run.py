@@ -84,7 +84,8 @@ def create_new_trip(name):
     worksheet.append_row(header)
 
     while True:
-        add_expense = input("Do you want to add an expense? (Y / N):\n")
+        os.system("clear")
+        add_expense = input(f"Do you want to add an expense for your {name} trip? (Y / N):\n")
         try:
             if add_expense.lower() not in ["y", "n"]:
                 raise ValueError(f"You selected {add_expense}. Please select Y or N")
@@ -94,15 +95,18 @@ def create_new_trip(name):
             if add_expense.lower() == "n":
                 break
             elif add_expense.lower() == "y":
-                create_expense()
+                create_expense(name)
 
 
-def create_expense():
+def create_expense(trip_name):
     """
     Call all functions to get expense data from user.
     Create an instance from expense class and call write_expense
     function passing the expense.
     """
+    worksheet = trip_name
+
+    os.system("clear")
     date = get_date()
     name = get_name()
     concept = get_concept()
@@ -111,12 +115,12 @@ def create_expense():
 
     expense = Expense(date, name, concept, cost, currency)
 
-    write_expense(expense)
+    check_expense(worksheet, expense)
 
 
 def get_date():
     """
-    Get date input from the user and format it to date.
+    Get date input from the user and format it to date and return it as str.
     Give the possibility to cancel the process.
     If the data entered is invalid ask again.
     """
@@ -135,7 +139,8 @@ def get_date():
         except ValueError:
             print("The date entered is not valid, please try again")
 
-    return date_obj
+    os.system("clear")
+    return date_obj.strftime('%d/%m/%Y')
 
 
 def get_name():
@@ -151,11 +156,10 @@ def get_name():
             if name.lower() == "c":
                 os.system('clear')
                 welcome_menu()
-            break
+            os.system("clear")
+            return name
         except ValueError:
             print("The name entered is not valid, please try again")
-
-    return name
 
 
 def get_concept():
@@ -185,6 +189,7 @@ def get_concept():
             os.system('clear')
             welcome_menu()
         elif validated_choice_bool:
+            os.system("clear")
             return concepts[validated_choice_num]
 
 
@@ -202,6 +207,7 @@ def get_cost():
                 os.system('clear')
                 welcome_menu()
             cost_float = float(cost)
+            os.system("clear")
             return cost_float
         except ValueError:
             print("The cost entered is not valid, please try again")
@@ -231,6 +237,7 @@ def get_currency():
             os.system('clear')
             welcome_menu()
         elif validated_choice_bool:
+            os.system("clear")
             return currencies[validated_choice_num]
 
 
@@ -243,8 +250,57 @@ class Expense:
         self.currency = currency
 
 
-def write_expense(expense):
-    pass
+def check_expense(trip_name, expense):
+    """
+    Loop asking if the data entered is correct. The user has the possibility
+    to change any field. When the user is happy with the data entered, will call
+    the write_expense function and then can choose to add another expense.
+    The user has the possibility to cancel at any time.
+    """
+    worksheet = SHEET.worksheet(trip_name)
+    while True:
+        print(f"You have added the following information for your {trip_name} trip:")
+        print(tabulate([(attr, value) for attr, value in expense.__dict__.items()]))
+        print("Press 'Y' if you want to confirm the expense")
+        print("Press 'C' if you want to cancel")
+        print("If you want to make a change, enter the field you want to modify")
+        field = input("Example: name\n")
+        if field.lower() == "date":
+            new_date = get_date()
+            expense.date = new_date
+            os.system("clear")
+        elif field.lower() == "name":
+            new_name = get_name()
+            expense.name = new_name
+            os.system("clear")
+        elif field.lower() == "concept":
+            new_concept = get_concept()
+            expense.concept = new_concept
+            os.system("clear")
+        elif field.lower() == "cost":
+            new_cost = get_cost()
+            expense.cost = new_cost
+            os.system("clear")
+        elif field.lower() == "currency":
+            new_currency = get_currency()
+            expense.currency = new_currency
+            os.system("clear")
+        elif field.lower() == "c":
+            welcome_menu()
+        elif field.lower() == "y":
+            write_expense(worksheet, expense)
+            break
+        else:
+            os.system("clear")
+            print("The value entered is not valid. Please try again.\n")
+
+
+def write_expense(worksheet, expense):
+    """
+    Writes the expense to the trip spreadhseet.
+    """
+    expense_arr = [value for attr, value in expense.__dict__.items()]
+    worksheet.append_row(expense_arr)
 
 
 welcome_menu()
