@@ -97,34 +97,21 @@ def create_new_trip(name):
                 create_expense()
 
 
-class Expense:
-    def __init__(self, date, name, concept, cost, currency):
-        self.date = date
-        self.name = name
-        self.concept = concept
-        self.cost = cost
-        self.currency = currency
-
-
 def create_expense():
     """
-    Creates an expense
+    Call all functions to get expense data from user.
+    Create an instance from expense class and call write_expense
+    function passing the expense.
     """
-    # currencies = {
-    #     1: "EUR",
-    #     2: "GBP",
-    #     3: "USD"
-    # }
-
     date = get_date()
     name = get_name()
     concept = get_concept()
     cost = get_cost()
-    # currency
+    currency = get_currency()
 
-    # expense = Expense(date, name, concept, cost, currency)
+    expense = Expense(date, name, concept, cost, currency)
 
-    # write_expense(expense)
+    write_expense(expense)
 
 
 def get_date():
@@ -173,7 +160,7 @@ def get_name():
 
 def get_concept():
     """
-    Get input from the user from the list of options.
+    Get concept input from the user from the list of options.
     Give the possibility to cancel the process.
     If the data entered is invalid ask again.
     """
@@ -218,6 +205,42 @@ def get_cost():
             return cost_float
         except ValueError:
             print("The cost entered is not valid, please try again")
+
+
+def get_currency():
+    """
+    Get currency input from the user from the list of options.
+    Give the possibility to cancel the process.
+    If the data entered is invalid ask again.
+    """
+    currencies = {
+        1: "EUR",
+        2: "GBP",
+        3: "USD"
+    }
+    currencies_headers = ["Code", "Currency"]
+
+    print("Select one of the following code options (1 to 3)")
+    print(tabulate([(str(code), currency) for code, currency in currencies.items()], headers=currencies_headers, tablefmt="mixed_grid"))
+
+    while True:
+        user_choice = input("Example: '1' or press 'C' to cancel:\n")
+        validated_choice = validate_user_choice(user_choice, range(1, 4))
+        validated_choice_bool, validated_choice_num = validated_choice
+        if user_choice.lower() == "c":
+            os.system('clear')
+            welcome_menu()
+        elif validated_choice_bool:
+            return currencies[validated_choice_num]
+
+
+class Expense:
+    def __init__(self, date, name, concept, cost, currency):
+        self.date = date
+        self.name = name
+        self.concept = concept
+        self.cost = cost
+        self.currency = currency
 
 
 def write_expense(expense):
