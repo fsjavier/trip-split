@@ -3,6 +3,7 @@ from google.oauth2.service_account import Credentials
 import os
 from tabulate import tabulate
 from datetime import datetime
+import pandas as pd
 
 # Every Google account has as an IAM (Identity and Access Management)
 # configuration which specifies what the user has access to.
@@ -311,6 +312,7 @@ def load_trips():
     trips = {x + 1: worksheet.title for x, worksheet in enumerate(WORKSHEETS[1:])}
     options_arr = [key for key, value in trips.items()]
     options = ", ".join([str(key) for key, value in trips.items()])
+    selected_trip = ""
     if not trips:
         print("There are currently no trips\n")
         welcome_menu()
@@ -324,8 +326,26 @@ def load_trips():
             validated_choice = validate_user_choice(user_choice, options_arr)
             validated_choice_bool, validated_choice_num = validated_choice
             if validated_choice_bool:
-                print(f"You've selected the {trips[validated_choice_num]} trip")
-                return trips[validated_choice_num]
+                selected_trip = trips[validated_choice_num]
+                select_trip(selected_trip)
+                break
+
+
+def select_trip(trip_name):
+    worksheet = SHEET.worksheet(trip_name)
+    data = worksheet.get_all_values()
+    header = data[0]
+    rows = data[1:]
+    df = pd.DataFrame(rows, columns=header)
+    # Count of values of a column
+    # df_count = df["Concept"].value_counts()
+    # print(df_count)
+    os.system("clear")
+    print(f"You've selected the {trip_name} trip.")
+    print(f"There are {df.shape[0]} entries.\n")
+    print("What would you like to do?")
+    print(tabulate([[1, "See all entries"], [2, "See summary"], [3, "Edit trip"], [4, "Delete trip"]]))
+
 
 
 # def __main__():
