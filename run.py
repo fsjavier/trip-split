@@ -28,22 +28,30 @@ def welcome_menu():
     Print welcome message and ask to choose between create trip and see list.
     Check the option chosen in valid and call the corresponding function.
     Run a while loop asking for input until it's a valid option.
+    If it's a new trip run a while loop until the name of the trip is new.
     """
     print("What would you like to do?")
     print(tabulate([[1, "Create new trip"], [2, "See existing trips"]]))
 
     while True:
+        trips = [trip.title for trip in WORKSHEETS]
         user_choice = input("Please, select your prefered option (1 or 2):\n")
         validated_choice = validate_user_choice(user_choice, range(1, 3))
         validated_choice_bool, validated_choice_num = validated_choice
         if validated_choice_bool:
+            os.system("clear")
             if validated_choice_num == 1:
-                os.system('clear')
-                trip_name = input("Enter the name of the trip\n")
-                print("Creating new trip...")
-                create_new_trip(trip_name)
-                print(f"{trip_name} successfully created!")
-                break
+                while True:
+                    trip_name = input("Enter the name of the trip\n")
+                    if trip_name in trips:
+                        os.system("clear")
+                        print(f"The trip {trip_name} already exists")
+                        print("Please select a different name")
+                    else:
+                        print("Creating new trip...")
+                        create_new_trip(trip_name)
+                        print(f"{trip_name} successfully created!")
+                        break
             elif validated_choice_num == 2:
                 load_trips()
                 break
