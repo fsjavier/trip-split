@@ -331,6 +331,9 @@ def load_trips():
         print(f"Select your prefered option: {options} or 'C' to go back.")
         while True:
             user_choice = input(f"Enter your selection:\n")
+            if user_choice.lower() == "c":
+                os.system("clear")
+                welcome_menu()
             validated_choice = validate_user_choice(user_choice, options_arr)
             validated_choice_bool, validated_choice_num = validated_choice
             if validated_choice_bool:
