@@ -28,7 +28,6 @@ def welcome_menu():
     Check the option chosen in valid and call the corresponding function.
     Run a while loop asking for input until it's a valid option.
     """
-    print("Welcome to Trip Split\n")
     print("What would you like to do?")
     print(tabulate([[1, "Create new trip"], [2, "See existing trips"]]))
 
@@ -45,7 +44,7 @@ def welcome_menu():
                 print(f"{trip_name} successfully created!")
                 break
             elif validated_choice_num == 2:
-                print(f"You chose {user_choice}")
+                load_trips()
                 break
 
 
@@ -66,7 +65,7 @@ def validate_user_choice(data, choices):
                 f"You selected {new_number}.\nSelect one of the following options: {choices_str_list}"
             )
     except ValueError as e:
-        print(f"Invalid data: {e}")
+        print(f"Invalid choice: {e}")
         return (False, 0)
 
     return (True, new_number)
@@ -301,6 +300,36 @@ def write_expense(worksheet, expense):
     """
     expense_arr = [value for attr, value in expense.__dict__.items()]
     worksheet.append_row(expense_arr)
+
+
+def load_trips():
+    """
+    Print existing trips or load the welcome menu if there aren't any.
+    The user can select one of the trips.
+    The function returns the name of the selected trip.
+    """
+    trips = {x + 1: worksheet.title for x, worksheet in enumerate(WORKSHEETS[1:])}
+    options_arr = [key for key, value in trips.items()]
+    options = ", ".join([str(key) for key, value in trips.items()])
+    if not trips:
+        print("There are currently no trips\n")
+        welcome_menu()
+    else:
+        os.system("clear")
+        print("These are the existing trips:")
+        print(tabulate([(str(trip_num), trip) for trip_num, trip in trips.items()]))
+        print(f"Select your prefered option: {options} or 'C' to go back.")
+        while True:
+            user_choice = input(f"Enter your selection:\n")
+            validated_choice = validate_user_choice(user_choice, options_arr)
+            validated_choice_bool, validated_choice_num = validated_choice
+            if validated_choice_bool:
+                print(f"You've selected the {trips[validated_choice_num]} trip")
+                return trips[validated_choice_num]
+
+
+# def __main__():
+#     print("Welcome to Trip Split")
 
 
 welcome_menu()
