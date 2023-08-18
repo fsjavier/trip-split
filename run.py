@@ -153,14 +153,14 @@ def get_date():
 
 def get_name():
     """
-    Get input from the user for the name of the expense.
+    Get input from the user for the name of the person.
     Give the possibility to cancel the process.
     If the data entered is invalid ask again.
     """
     while True:
         try:
             print("Enter a name for the expense")
-            name = input("Example: 'Cinema tickets' or press 'C' to cancel:\n")
+            name = input("Example: 'John' or press 'C' to cancel:\n").title()
             if name.lower() == "c":
                 os.system('clear')
                 welcome_menu()
@@ -343,20 +343,64 @@ def load_trips():
 
 
 def select_trip(trip_name):
+    """
+
+    """
     worksheet = SHEET.worksheet(trip_name)
     data = worksheet.get_all_values()
     header = data[0]
     rows = data[1:]
     df = pd.DataFrame(rows, columns=header)
-    # Count of values of a column
-    # df_count = df["Concept"].value_counts()
-    # print(df_count)
     os.system("clear")
     print(f"You've selected the {trip_name} trip.")
     print(f"There are {df.shape[0]} entries.\n")
     print("What would you like to do?")
-    print(tabulate([[1, "See all entries"], [2, "See summary"], [3, "Edit trip"], [4, "Delete trip"]]))
+    print(tabulate([[1, "See summary"], [2, "Edit trip"], [3, "Delete trip"]]))
+    while True:
+        user_choice = input("Please, select your prefered option:\n")
+        validated_choice = validate_user_choice(user_choice, range(1, 5))
+        validated_choice_bool, validated_choice_num = validated_choice
+        if validated_choice_bool:
+            os.system("clear")
+            if validated_choice_num == 1:
+                see_trip_summary(df)
+                break
+            elif validated_choice_num == 2:
+                edit_trip(trip_name, df)
+                break
+            elif validated_choice_num == 3:
+                delete_trip(trip_name)
+                break
 
+
+def see_trip_summary(df):
+    """
+    Print a table displaying how much each person spent.
+    It also shows how much each has to pay/receive so that
+    everyone pays the same amount
+    """
+    nr_of_persons = df["Name"].value_counts().shape[0]
+    df['Cost'] = df['Cost'].str.replace(',', '.').astype(float) # Convert to float so that it can be added up
+    total_cost = df['Cost'].sum() # Calculate the total cost of the trip
+    avg_cost = total_cost / nr_of_persons # Calculate how much each person should pay
+    sum_by_name = df.groupby("Name")["Cost"].sum() # Calculate how much each person has paid
+    sum_by_name_list = [(name, value) for name, value in sum_by_name.items()] # Create list to be displayed
+    header = ["Name", "Spent", "Price per person", "To pay (-) / Receive (+)"]
+    cost_diff = [(name, value, round(avg_cost, 2), round(value - avg_cost, 2)) for name, value in sum_by_name_list]
+    print(tabulate(cost_diff, headers=header, tablefmt="mixed_grid", numalign="center"))
+
+
+def edit_trip(trip_name, df):
+    show_trip_entries(df)
+    pass
+
+
+def show_trip_entries(df):
+    print(df)
+
+
+def delete_trip(trip_name):
+    pass
 
 
 # def __main__():
