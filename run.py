@@ -404,6 +404,7 @@ def edit_trip(trip_name, df):
         user_choice = input("Select one of the above or 'c' to go back:\n")
         if user_choice not in ["e", "d", "a", "c"]:
             print("Invalid choice, please try again.")
+            continue
         if user_choice == 'c':
             welcome_menu()
             break
@@ -426,7 +427,7 @@ def edit_trip(trip_name, df):
                 validated_choice_bool, validated_choice_num = validated_choice
                 if validated_choice_bool:
                     print(f"You've chosen to delete {validated_choice_num}")
-                    # Call function to handle delete entry
+                    delete_trip_entry(trip_name, validated_choice_num)
                     break
             if user_choice == "a":
                 os.system("clear")
@@ -439,6 +440,30 @@ def edit_trip(trip_name, df):
 
 def show_trip_entries(df):
     print(f"{df}\n")
+
+
+def delete_trip_entry(trip_name, entry_ind):
+    """
+    The user can select an entry from the trip to delete.
+    A summary of the selected entry will be displayed and the user
+    must confirm that the entry should be deleted.
+    """
+    worksheet = SHEET.worksheet(trip_name)
+    row_delete = entry_ind + 2 # +2 because the spreadsheet starts at 1 and the first line is the header
+    values_list = worksheet.row_values(row_delete)
+    header = ["Date", "Name", "Concept", "Cost", "Currency"]
+    print("You are going to delete the following expense:")
+    print(tabulate(zip(header, values_list)))
+    user_choice = input("Press Y to confirm or N to discard the changes:\n")
+    while True:
+        if user_choice.lower() not in ["y", "n"]:
+            print("That's not a valid choice, please try again.")
+        elif user_choice.lower() == "y":
+            worksheet.delete_rows(row_delete)
+            print("Entry successfully deleted.")
+            break
+        else:
+            welcome_menu()
 
 
 def delete_trip(trip_name):
