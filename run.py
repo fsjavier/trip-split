@@ -406,15 +406,27 @@ def edit_trip(trip_name, df):
             welcome_menu()
             break
         while True:
+            options_array = [option for option in df.index.to_numpy()]
+            options_array_str = ", ".join([str(choice) for choice in options_array])
             if user_choice == 'e':
-                options_array = [option for option in df.index.to_numpy()]
                 print("Select the number of the entry you want to edit:")
-                print(", ".join([str(choice) for choice in options_array]))
+                print(options_array_str)
                 user_choice_edit_entry = input("Example '2':\n")
                 validated_choice = validate_user_choice(user_choice_edit_entry, options_array)
                 validated_choice_bool, validated_choice_num = validated_choice
                 if validated_choice_bool:
-                    print(f"You've chosen {validated_choice_num}")
+                    print(f"You've chosen to edit {validated_choice_num}")
+                    # Call function to handle edit entry
+                    break
+            if user_choice == 'd':
+                print("Select the number of the entry you want to delete:")
+                print(options_array_str)
+                user_choice_edit_entry = input("Example '2':\n")
+                validated_choice = validate_user_choice(user_choice_edit_entry, options_array)
+                validated_choice_bool, validated_choice_num = validated_choice
+                if validated_choice_bool:
+                    print(f"You've chosen to delete {validated_choice_num}")
+                    # Call function to handle edit entry
                     break
         break
 
