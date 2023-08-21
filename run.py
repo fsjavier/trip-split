@@ -391,12 +391,36 @@ def see_trip_summary(df):
 
 
 def edit_trip(trip_name, df):
+    """
+    Show all entries for the selected trip. The user can choose between
+    deleting, editing or adding an entry.
+    """
+    print(f"These are all records for the {trip_name} trip:\n")
     show_trip_entries(df)
-    pass
+    print("Press 'e' to edit, 'd' to delete, or 'a' to add an entry")
+    while True:
+        user_choice = input("Select one of the above or 'c' to go back:\n")
+        if user_choice not in ["e", "d", "a", "c"]:
+            print("Invalid choice, please try again.")
+        if user_choice == 'c':
+            welcome_menu()
+            break
+        while True:
+            if user_choice == 'e':
+                options_array = [option for option in df.index.to_numpy()]
+                print("Select the number of the entry you want to edit:")
+                print(", ".join([str(choice) for choice in options_array]))
+                user_choice_edit_entry = input("Example '2':\n")
+                validated_choice = validate_user_choice(user_choice_edit_entry, options_array)
+                validated_choice_bool, validated_choice_num = validated_choice
+                if validated_choice_bool:
+                    print(f"You've chosen {validated_choice_num}")
+                    break
+        break
 
 
 def show_trip_entries(df):
-    print(df)
+    print(f"{df}\n")
 
 
 def delete_trip(trip_name):
