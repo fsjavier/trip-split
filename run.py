@@ -395,6 +395,8 @@ def edit_trip(trip_name, df):
     Show all entries for the selected trip. The user can choose between
     deleting, editing or adding an entry.
     """
+    options_array = [option for option in df.index.to_numpy()]
+    options_array_str = ", ".join([str(choice) for choice in options_array])
     print(f"These are all records for the {trip_name} trip:\n")
     show_trip_entries(df)
     print("Press 'e' to edit, 'd' to delete, or 'a' to add an entry")
@@ -406,8 +408,6 @@ def edit_trip(trip_name, df):
             welcome_menu()
             break
         while True:
-            options_array = [option for option in df.index.to_numpy()]
-            options_array_str = ", ".join([str(choice) for choice in options_array])
             if user_choice == 'e':
                 print("Select the number of the entry you want to edit:")
                 print(options_array_str)
@@ -426,8 +426,14 @@ def edit_trip(trip_name, df):
                 validated_choice_bool, validated_choice_num = validated_choice
                 if validated_choice_bool:
                     print(f"You've chosen to delete {validated_choice_num}")
-                    # Call function to handle edit entry
+                    # Call function to handle delete entry
                     break
+            if user_choice == "a":
+                os.system("clear")
+                print(f"You are creating a new entry for {trip_name}")
+                create_expense(trip_name)
+                print("Expense added successfully!")
+                break
         break
 
 
@@ -437,10 +443,6 @@ def show_trip_entries(df):
 
 def delete_trip(trip_name):
     pass
-
-
-# def __main__():
-#     print("Welcome to Trip Split")
 
 
 welcome_menu()
