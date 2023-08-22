@@ -118,18 +118,18 @@ def create_expense(trip_name):
     worksheet = trip_name
 
     os.system("clear")
-    date = get_date()
-    name = get_name()
-    concept = get_concept()
-    cost = get_cost()
-    currency = get_currency()
+    date = get_date(trip_name)
+    name = get_name(trip_name)
+    concept = get_concept(trip_name)
+    cost = get_cost(trip_name)
+    currency = get_currency(trip_name)
 
     expense = Expense(date, name, concept, cost, currency)
 
     check_expense(write_new_expense, worksheet, expense, row_edit=0)
 
 
-def get_date():
+def get_date(trip_name):
     """
     Get date input from the user and format it to date and return it as str.
     Give the possibility to cancel the process.
@@ -143,7 +143,7 @@ def get_date():
             date = input("Example: 31/06/2023 or press 'C' to cancel:\n")
             if date.lower() == "c":
                 os.system("clear")
-                welcome_menu()
+                select_trip(trip_name)
             else:
                 date_obj = datetime.strptime(date, date_format)
                 break
@@ -154,7 +154,7 @@ def get_date():
     return date_obj.strftime("%d/%m/%Y")
 
 
-def get_name():
+def get_name(trip_name):
     """
     Get input from the user for the name of the person.
     Give the possibility to cancel the process.
@@ -166,14 +166,14 @@ def get_name():
             name = input("Example: 'John' or press 'C' to cancel:\n").title()
             if name.lower() == "c":
                 os.system("clear")
-                welcome_menu()
+                select_trip(trip_name)
             os.system("clear")
             return name
         except ValueError:
             print("The name entered is not valid, please try again")
 
 
-def get_concept():
+def get_concept(trip_name):
     """
     Get concept input from the user from the list of options.
     Give the possibility to cancel the process.
@@ -198,13 +198,13 @@ def get_concept():
         validated_choice_bool, validated_choice_num = validated_choice
         if user_choice.lower() == "c":
             os.system("clear")
-            welcome_menu()
+            select_trip(trip_name)
         elif validated_choice_bool:
             os.system("clear")
             return concepts[validated_choice_num]
 
 
-def get_cost():
+def get_cost(trip_name):
     """
     Get input from the user for the cost.
     Give the possibility to cancel the process.
@@ -216,7 +216,7 @@ def get_cost():
             cost = input("Example: '19.95' or press 'C' to cancel:\n")
             if cost.lower() == "c":
                 os.system("clear")
-                welcome_menu()
+                select_trip(trip_name)
             cost_float = float(cost)
             os.system("clear")
             return cost_float
@@ -224,7 +224,7 @@ def get_cost():
             print("The cost entered is not valid, please try again")
 
 
-def get_currency():
+def get_currency(trip_name):
     """
     Get currency input from the user from the list of options.
     Give the possibility to cancel the process.
@@ -246,7 +246,7 @@ def get_currency():
         validated_choice_bool, validated_choice_num = validated_choice
         if user_choice.lower() == "c":
             os.system("clear")
-            welcome_menu()
+            select_trip(trip_name)
         elif validated_choice_bool:
             os.system("clear")
             return currencies[validated_choice_num]
@@ -277,23 +277,23 @@ def check_expense(update_worksheet ,trip_name, expense, row_edit):
         print("If you want to make a change, enter the field you want to modify")
         field = input("Example: name\n")
         if field.lower() == "date":
-            new_date = get_date()
+            new_date = get_date(trip_name)
             expense.date = new_date
             os.system("clear")
         elif field.lower() == "name":
-            new_name = get_name()
+            new_name = get_name(trip_name)
             expense.name = new_name
             os.system("clear")
         elif field.lower() == "concept":
-            new_concept = get_concept()
+            new_concept = get_concept(trip_name)
             expense.concept = new_concept
             os.system("clear")
         elif field.lower() == "cost":
-            new_cost = get_cost()
+            new_cost = get_cost(trip_name)
             expense.cost = new_cost
             os.system("clear")
         elif field.lower() == "currency":
-            new_currency = get_currency()
+            new_currency = get_currency(trip_name)
             expense.currency = new_currency
             os.system("clear")
         elif field.lower() == "c":
@@ -507,6 +507,8 @@ def delete_trip_entry(trip_name, entry_ind):
             time.sleep(1)
             os.system("clear")
             select_trip(trip_name)
+        elif user_choice.lower() == "n":
+            select_trip(trip_name)
         else:
             # Replace for ValueError
             print("Something went wrong")
@@ -558,7 +560,7 @@ def delete_trip(trip_name, df):
         if user_choice.lower() not in ["y", "n"]:
             print("Invalid choice, please try again")
         elif user_choice.lower() == "n":
-            welcome_menu()
+            select_trip(trip_name)
         elif user_choice.lower() == "y":
             SHEET.del_worksheet(worksheet)
             print(f"{trip_name} successfully deleted!")
