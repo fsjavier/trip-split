@@ -412,16 +412,16 @@ def edit_trip(trip_name, df):
     show_trip_entries(trip_name, df)
     if df.shape[0] == 0:
         while True:
-            print("Press 'a' to add an entry")
-            user_choice = input("Or press 'c' to go back:\n")
-            if user_choice not in ["a", "c"]:
+            print("Press 'A' to add an entry")
+            user_choice = input("Or press 'C' to go back:\n")
+            if user_choice.lower() not in ["a", "c"]:
                 print("Invalid choice, please try again.")
                 continue
-            if user_choice == "c":
+            if user_choice.lower() == "c":
                 time.sleep(0.5)
                 os.system("clear")
                 welcome_menu()
-            elif user_choice == "a":
+            elif user_choice.lower() == "a":
                 os.system("clear")
                 print(f"You are creating a new entry for {trip_name}")
                 create_expense(trip_name)
@@ -430,20 +430,20 @@ def edit_trip(trip_name, df):
                 select_trip(trip_name)
     else:
         while True:
-            print("Press 'e' to edit, 'd' to delete, or 'a' to add an entry")
-            user_choice = input("Select one of the above or 'c' to go back:\n")
-            if user_choice not in ["e", "d", "a", "c"]:
+            print("Press 'E' to edit, 'D' to delete, or 'A' to add an entry")
+            user_choice = input("Select one of the above or 'C' to go back:\n")
+            if user_choice.lower() not in ["e", "d", "a", "c"]:
                 print("Invalid choice, please try again.")
                 continue
-            if user_choice == "c":
+            if user_choice.lower() == "c":
                 time.sleep(0.5)
                 os.system("clear")
                 welcome_menu()
-            if user_choice == "e":
+            if user_choice.lower() == "e":
                 edit_delete_entry(options_array, options_array_str, trip_name, edit_trip_entry, option_chosen="edit")
-            if user_choice == "d":
+            if user_choice.lower() == "d":
                 edit_delete_entry(options_array, options_array_str, trip_name, delete_trip_entry, option_chosen="delete")
-            if user_choice == "a":
+            if user_choice.lower() == "a":
                 os.system("clear")
                 print(f"You are creating a new entry for {trip_name}")
                 create_expense(trip_name)
