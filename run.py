@@ -422,7 +422,7 @@ def edit_trip(trip_name, df):
                 validated_choice_bool, validated_choice_num = validated_choice
                 if validated_choice_bool:
                     print(f"You've chosen to edit {validated_choice_num}")
-                    # Call function to handle edit entry
+                    edit_trip_entry(trip_name, validated_choice_num)
                     break
             if user_choice == 'd':
                 print("Select the number of the entry you want to delete:")
@@ -470,6 +470,24 @@ def delete_trip_entry(trip_name, entry_ind):
         else:
             welcome_menu()
 
+
+def edit_trip_entry(trip_name, entry_ind):
+    """
+    The user can select an entry from the trip to edit.
+    A summary of the selected entry will be displayed and the user
+    must confirm that the entry should be edited.
+    """
+    worksheet = SHEET.worksheet(trip_name)
+    row_edit = entry_ind + 2 # +2 because the spreadsheet starts at 1 and the first line is the header
+    values_list = worksheet.row_values(row_edit)
+    date = values_list[0]
+    name = values_list[1]
+    concept = values_list[2]
+    cost = values_list[3]
+    currency = values_list[4]
+    expense = Expense(date, name, concept, cost, currency)
+
+    check_expense(trip_name, expense)
 
 def delete_trip(trip_name):
     pass
