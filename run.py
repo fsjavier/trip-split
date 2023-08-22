@@ -376,8 +376,7 @@ def select_trip(trip_name):
             if user_choice.lower() == "c":
                 load_trips()
             elif validated_choice_num == 1:
-                print(f"This is the summary of the {trip_name} trip:\n")
-                see_trip_summary(df)
+                see_trip_summary(trip_name, df)
                 print("")
                 input("Press any key to go back:\n")
                 time.sleep(0.5)
@@ -388,22 +387,27 @@ def select_trip(trip_name):
                 delete_trip(trip_name, df)
 
 
-def see_trip_summary(df):
+def see_trip_summary(trip_name, df):
     """
     Print a table displaying how much each person spent.
     It also shows how much each has to pay/receive so that
     everyone pays the same amount
     """
-    nr_of_persons = df["Name"].value_counts().shape[0]
-    df["Cost"] = df["Cost"].str.replace(",", ".").astype(float) # Convert to float so that it can be added up
-    total_cost = df["Cost"].sum() # Calculate the total cost of the trip
-    avg_cost = total_cost / nr_of_persons # Calculate how much each person should pay
-    sum_by_name = df.groupby("Name")["Cost"].sum() # Calculate how much each person has paid
-    sum_by_name_list = [(name, value) for name, value in sum_by_name.items()] # Create list to be displayed
-    header = ["Name", "Spent", "Price per person", "To pay (-) / Receive (+)"]
-    cost_diff = [(name, value, round(avg_cost, 2), round(value - avg_cost, 2)) for name, value in sum_by_name_list]
-
-    print(tabulate(cost_diff, headers=header, tablefmt="mixed_grid", numalign="center"))
+    if df.shape[0] == 0:
+        print("There are no entries for this trip\n")
+    
+    else:
+        nr_of_persons = df["Name"].value_counts().shape[0]
+        df["Cost"] = df["Cost"].str.replace(",", ".").astype(float) # Convert to float so that it can be added up
+        total_cost = df["Cost"].sum() # Calculate the total cost of the trip
+        avg_cost = total_cost / nr_of_persons # Calculate how much each person should pay
+        sum_by_name = df.groupby("Name")["Cost"].sum() # Calculate how much each person has paid
+        sum_by_name_list = [(name, value) for name, value in sum_by_name.items()] # Create list to be displayed
+        header = ["Name", "Spent", "Price per person", "To pay (-) / Receive (+)"]
+        cost_diff = [(name, value, round(avg_cost, 2), round(value - avg_cost, 2)) for name, value in sum_by_name_list]
+        
+        print(f"This is the summary of the {trip_name} trip:\n")
+        print(tabulate(cost_diff, headers=header, tablefmt="mixed_grid", numalign="center"))
 
 
 def edit_trip(trip_name, df):
