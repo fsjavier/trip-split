@@ -297,7 +297,9 @@ def check_expense(update_worksheet ,trip_name, expense, row_edit):
             expense.currency = new_currency
             os.system("clear")
         elif field.lower() == "c":
-            welcome_menu()
+            time.sleep(0.5)
+            os.system("clear")
+            select_trip(trip_name)
         elif field.lower() == "y":
             update_worksheet(trip_name, expense, row_edit)
             break
@@ -459,12 +461,14 @@ def edit_delete_entry(options_array, options_array_str, trip_name, edit_delete_t
     """
     print(f"Select the number of the entry you want to {option_chosen}:")
     print(options_array_str)
-    user_choice_edit_entry = input("Example '2':\n")
-    validated_choice = validate_user_choice(user_choice_edit_entry, options_array)
-    validated_choice_bool, validated_choice_num = validated_choice
-    if validated_choice_bool:
-        print(f"You've chosen to {option_chosen} the entry number {validated_choice_num}")
-        edit_delete_trip_entry(trip_name, validated_choice_num)
+    while True:
+        user_choice_edit_entry = input("Example: '2':\n")
+        validated_choice = validate_user_choice(user_choice_edit_entry, options_array)
+        validated_choice_bool, validated_choice_num = validated_choice
+        if validated_choice_bool:
+            os.system("clear")
+            print(f"You've chosen to {option_chosen} the entry number {validated_choice_num}")
+            edit_delete_trip_entry(trip_name, validated_choice_num)
 
 
 def show_trip_entries(trip_name, df):
