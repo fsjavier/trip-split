@@ -407,29 +407,46 @@ def edit_trip(trip_name, df):
     options_array = [option for option in df.index.to_numpy()]
     options_array_str = ", ".join([str(choice) for choice in options_array])
     show_trip_entries(trip_name, df)
-    print("Press 'e' to edit, 'd' to delete, or 'a' to add an entry")
-    while True:
-        user_choice = input("Select one of the above or 'c' to go back:\n")
-        if user_choice not in ["e", "d", "a", "c"]:
-            print("Invalid choice, please try again.")
-            continue
-        if user_choice == 'c':
-            welcome_menu()
-            break
+    if df.shape[0] == 0:
         while True:
+            print("Press 'a' to add an entry")
+            user_choice = input("Or press 'c' to go back:\n")
+            if user_choice not in ["a", "c"]:
+                print("Invalid choice, please try again.")
+                continue
+            if user_choice == 'c':
+                time.sleep(0.5)
+                os.system("clear")
+                welcome_menu()
+            elif user_choice == "a":
+                os.system("clear")
+                print(f"You are creating a new entry for {trip_name}")
+                create_expense(trip_name)
+                print("Expense added successfully!")
+                time.sleep(1)
+                select_trip(trip_name)
+    else:
+        while True:
+            print("Press 'e' to edit, 'd' to delete, or 'a' to add an entry")
+            user_choice = input("Select one of the above or 'c' to go back:\n")
+            if user_choice not in ["e", "d", "a", "c"]:
+                print("Invalid choice, please try again.")
+                continue
+            if user_choice == 'c':
+                time.sleep(0.5)
+                os.system("clear")
+                welcome_menu()
             if user_choice == 'e':
                 edit_delete_entry(options_array, options_array_str, trip_name, edit_trip_entry, option_chosen="edit")
-                break
             if user_choice == 'd':
                 edit_delete_entry(options_array, options_array_str, trip_name, delete_trip_entry, option_chosen="delete")
-                break
             if user_choice == "a":
                 os.system("clear")
                 print(f"You are creating a new entry for {trip_name}")
                 create_expense(trip_name)
                 print("Expense added successfully!")
-                break
-        break
+                time.sleep(1)
+                select_trip(trip_name)
 
 
 def edit_delete_entry(options_array, options_array_str, trip_name, edit_delete_trip_entry, option_chosen):
@@ -478,8 +495,12 @@ def delete_trip_entry(trip_name, entry_ind):
         elif user_choice.lower() == "y":
             worksheet.delete_rows(row_delete)
             print("Entry successfully deleted.")
-            break
+            time.sleep(1)
+            os.system("clear")
+            select_trip(trip_name)
         else:
+            # Replace for ValueError
+            print("Something went wrong")
             welcome_menu()
 
 
@@ -500,6 +521,9 @@ def edit_trip_entry(trip_name, entry_ind):
     expense = Expense(date, name, concept, cost, currency)
 
     check_expense(overwrite_expense, trip_name, expense, row_edit)
+    time.sleep(1)
+    os.system("clear")
+    select_trip(trip_name)
 
 
 def overwrite_expense(worksheet, expense, row_edit):
@@ -509,6 +533,7 @@ def overwrite_expense(worksheet, expense, row_edit):
     worksheet = SHEET.worksheet(worksheet)
     expense_arr = [value for attr, value in expense.__dict__.items()]
     worksheet.update(f"A{row_edit}:E{row_edit}" , [expense_arr])
+    print("Expense successfully edited!")
 
 
 def delete_trip(trip_name, df):
