@@ -418,25 +418,11 @@ def edit_trip(trip_name, df):
             break
         while True:
             if user_choice == 'e':
-                print("Select the number of the entry you want to edit:")
-                print(options_array_str)
-                user_choice_edit_entry = input("Example '2':\n")
-                validated_choice = validate_user_choice(user_choice_edit_entry, options_array)
-                validated_choice_bool, validated_choice_num = validated_choice
-                if validated_choice_bool:
-                    print(f"You've chosen to edit {validated_choice_num}")
-                    edit_trip_entry(trip_name, validated_choice_num)
-                    break
+                edit_delete_entry(options_array, options_array_str, trip_name, edit_trip_entry, option_chosen="edit")
+                break
             if user_choice == 'd':
-                print("Select the number of the entry you want to delete:")
-                print(options_array_str)
-                user_choice_edit_entry = input("Example '2':\n")
-                validated_choice = validate_user_choice(user_choice_edit_entry, options_array)
-                validated_choice_bool, validated_choice_num = validated_choice
-                if validated_choice_bool:
-                    print(f"You've chosen to delete {validated_choice_num}")
-                    delete_trip_entry(trip_name, validated_choice_num)
-                    break
+                edit_delete_entry(options_array, options_array_str, trip_name, delete_trip_entry, option_chosen="delete")
+                break
             if user_choice == "a":
                 os.system("clear")
                 print(f"You are creating a new entry for {trip_name}")
@@ -446,7 +432,26 @@ def edit_trip(trip_name, df):
         break
 
 
+def edit_delete_entry(options_array, options_array_str, trip_name, edit_delete_trip_entry, option_chosen):
+    """
+    Takes in the parameters necessary to either edit or delete an entry.
+    Validates the user choice and calls the appropiate function.
+    """
+    print(f"Select the number of the entry you want to {option_chosen}:")
+    print(options_array_str)
+    user_choice_edit_entry = input("Example '2':\n")
+    validated_choice = validate_user_choice(user_choice_edit_entry, options_array)
+    validated_choice_bool, validated_choice_num = validated_choice
+    if validated_choice_bool:
+        print(f"You've chosen to {option_chosen} the entry number {validated_choice_num}")
+        edit_delete_trip_entry(trip_name, validated_choice_num)
+
+
 def show_trip_entries(trip_name, df):
+    """
+    Check if the worksheet is empty.
+    If it's not empty displays the expenses.
+    """
     if df.shape[0] == 0:
         print(f"The {trip_name} trip is empty.\n")
     else:
