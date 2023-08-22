@@ -269,7 +269,6 @@ def check_expense(update_worksheet ,trip_name, expense, row_edit):
     entry will be either added or edited.
     The user has the possibility to cancel at any time.
     """
-    worksheet = SHEET.worksheet(trip_name)
     while True:
         print(f"You have added the following information for your {trip_name} trip:")
         print(tabulate([(attr, value) for attr, value in expense.__dict__.items()]))
@@ -504,7 +503,6 @@ def overwrite_expense(worksheet, expense, row_edit):
     """
     worksheet = SHEET.worksheet(worksheet)
     expense_arr = [value for attr, value in expense.__dict__.items()]
-    row_edit_str = str(row_edit)
     worksheet.update(f"A{row_edit}:E{row_edit}" , [expense_arr])
 
 
