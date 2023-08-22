@@ -368,12 +368,14 @@ def select_trip(trip_name):
     print("What would you like to do?")
     print(tabulate([[1, "See summary"], [2, "Edit trip"], [3, "Delete trip"]]))
     while True:
-        user_choice = input("Please, select your prefered option:\n")
-        validated_choice = validate_user_choice(user_choice, range(1, 5))
+        user_choice = input("Please, select your prefered option or press 'C' to go back:\n")
+        validated_choice = validate_user_choice(user_choice, range(1, 4))
         validated_choice_bool, validated_choice_num = validated_choice
-        if validated_choice_bool:
+        if validated_choice_bool or user_choice.lower() == "c":
             os.system("clear")
-            if validated_choice_num == 1:
+            if user_choice.lower() == "c":
+                load_trips()
+            elif validated_choice_num == 1:
                 print(f"This is the summary of the {trip_name} trip:\n")
                 see_trip_summary(df)
                 print("")
