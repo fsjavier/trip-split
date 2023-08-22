@@ -372,14 +372,16 @@ def select_trip(trip_name):
         if validated_choice_bool:
             os.system("clear")
             if validated_choice_num == 1:
+                print(f"This is the summary of the {trip_name} trip:\n")
                 see_trip_summary(df)
-                break
+                print("")
+                input("Press any key to go back:\n")
+                time.sleep(0.5)
+                select_trip(trip_name)
             elif validated_choice_num == 2:
                 edit_trip(trip_name, df)
-                break
             elif validated_choice_num == 3:
                 delete_trip(trip_name, df)
-                break
 
 
 def see_trip_summary(df):
@@ -396,6 +398,7 @@ def see_trip_summary(df):
     sum_by_name_list = [(name, value) for name, value in sum_by_name.items()] # Create list to be displayed
     header = ["Name", "Spent", "Price per person", "To pay (-) / Receive (+)"]
     cost_diff = [(name, value, round(avg_cost, 2), round(value - avg_cost, 2)) for name, value in sum_by_name_list]
+
     print(tabulate(cost_diff, headers=header, tablefmt="mixed_grid", numalign="center"))
 
 
