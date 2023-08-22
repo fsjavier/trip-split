@@ -376,7 +376,7 @@ def select_trip(trip_name):
                 edit_trip(trip_name, df)
                 break
             elif validated_choice_num == 3:
-                delete_trip(trip_name)
+                delete_trip(trip_name, df)
                 break
 
 
@@ -502,8 +502,25 @@ def overwrite_expense(worksheet, expense, row_edit):
     worksheet.update(f"A{row_edit}:E{row_edit}" , [expense_arr])
 
 
-def delete_trip(trip_name):
-    pass
+def delete_trip(trip_name, df):
+    """
+    Display the trip entries and ask for the user confirmation
+    before deleting it.
+    """
+    worksheet = SHEET.worksheet(trip_name)
+    print(f"The {trip_name} contains the following entries:\n")
+    print(f"{df}\n")
+    print(f"Are you sure you want to delete it?\n")
+    while True:
+        user_choice = input("Press 'Y' to delete or 'N' to cancel:\n")
+        if user_choice.lower() not in ["y", "n"]:
+            print("Invalid choice, please try again")
+        elif user_choice.lower() == "n":
+            welcome_menu()
+        elif user_choice.lower() == "y":
+            SHEET.del_worksheet(worksheet)
+            print(f"{trip_name} successfully deleted!")
+            welcome_menu()
 
 
 welcome_menu()
