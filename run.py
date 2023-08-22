@@ -135,14 +135,14 @@ def get_date():
     Give the possibility to cancel the process.
     If the data entered is invalid ask again.
     """
-    date_format = '%d/%m/%Y'
+    date_format = "%d/%m/%Y"
 
     while True:
         try:
             print("Enter date in the following format dd/mm/yyyy")
             date = input("Example: 31/06/2023 or press 'C' to cancel:\n")
             if date.lower() == "c":
-                os.system('clear')
+                os.system("clear")
                 welcome_menu()
             else:
                 date_obj = datetime.strptime(date, date_format)
@@ -151,7 +151,7 @@ def get_date():
             print("The date entered is not valid, please try again")
 
     os.system("clear")
-    return date_obj.strftime('%d/%m/%Y')
+    return date_obj.strftime("%d/%m/%Y")
 
 
 def get_name():
@@ -165,7 +165,7 @@ def get_name():
             print("Enter a name for the expense")
             name = input("Example: 'John' or press 'C' to cancel:\n").title()
             if name.lower() == "c":
-                os.system('clear')
+                os.system("clear")
                 welcome_menu()
             os.system("clear")
             return name
@@ -197,7 +197,7 @@ def get_concept():
         validated_choice = validate_user_choice(user_choice, range(1, 7))
         validated_choice_bool, validated_choice_num = validated_choice
         if user_choice.lower() == "c":
-            os.system('clear')
+            os.system("clear")
             welcome_menu()
         elif validated_choice_bool:
             os.system("clear")
@@ -215,7 +215,7 @@ def get_cost():
         try:
             cost = input("Example: '19.95' or press 'C' to cancel:\n")
             if cost.lower() == "c":
-                os.system('clear')
+                os.system("clear")
                 welcome_menu()
             cost_float = float(cost)
             os.system("clear")
@@ -245,7 +245,7 @@ def get_currency():
         validated_choice = validate_user_choice(user_choice, range(1, 4))
         validated_choice_bool, validated_choice_num = validated_choice
         if user_choice.lower() == "c":
-            os.system('clear')
+            os.system("clear")
             welcome_menu()
         elif validated_choice_bool:
             os.system("clear")
@@ -270,10 +270,10 @@ def check_expense(update_worksheet ,trip_name, expense, row_edit):
     The user has the possibility to cancel at any time.
     """
     while True:
-        print(f"You have added the following information for your {trip_name} trip:")
+        print(f"This is the record:\n")
         print(tabulate([(attr, value) for attr, value in expense.__dict__.items()]))
         print("Press 'Y' if you want to confirm the expense")
-        print("Press 'C' if you want to cancel")
+        print("Press 'C' if you want to cancel\n")
         print("If you want to make a change, enter the field you want to modify")
         field = input("Example: name\n")
         if field.lower() == "date":
@@ -391,8 +391,8 @@ def see_trip_summary(df):
     everyone pays the same amount
     """
     nr_of_persons = df["Name"].value_counts().shape[0]
-    df['Cost'] = df['Cost'].str.replace(',', '.').astype(float) # Convert to float so that it can be added up
-    total_cost = df['Cost'].sum() # Calculate the total cost of the trip
+    df["Cost"] = df["Cost"].str.replace(",", ".").astype(float) # Convert to float so that it can be added up
+    total_cost = df["Cost"].sum() # Calculate the total cost of the trip
     avg_cost = total_cost / nr_of_persons # Calculate how much each person should pay
     sum_by_name = df.groupby("Name")["Cost"].sum() # Calculate how much each person has paid
     sum_by_name_list = [(name, value) for name, value in sum_by_name.items()] # Create list to be displayed
@@ -417,7 +417,7 @@ def edit_trip(trip_name, df):
             if user_choice not in ["a", "c"]:
                 print("Invalid choice, please try again.")
                 continue
-            if user_choice == 'c':
+            if user_choice == "c":
                 time.sleep(0.5)
                 os.system("clear")
                 welcome_menu()
@@ -435,13 +435,13 @@ def edit_trip(trip_name, df):
             if user_choice not in ["e", "d", "a", "c"]:
                 print("Invalid choice, please try again.")
                 continue
-            if user_choice == 'c':
+            if user_choice == "c":
                 time.sleep(0.5)
                 os.system("clear")
                 welcome_menu()
-            if user_choice == 'e':
+            if user_choice == "e":
                 edit_delete_entry(options_array, options_array_str, trip_name, edit_trip_entry, option_chosen="edit")
-            if user_choice == 'd':
+            if user_choice == "d":
                 edit_delete_entry(options_array, options_array_str, trip_name, delete_trip_entry, option_chosen="delete")
             if user_choice == "a":
                 os.system("clear")
@@ -519,7 +519,7 @@ def edit_trip_entry(trip_name, entry_ind):
     date = values_list[0]
     name = values_list[1]
     concept = values_list[2]
-    cost = float(values_list[3].replace(',', '.')) # Convert to float from str
+    cost = float(values_list[3].replace(",", ".")) # Convert to float from str
     currency = values_list[4]
     expense = Expense(date, name, concept, cost, currency)
 
