@@ -407,8 +407,7 @@ def edit_trip(trip_name, df):
     """
     options_array = [option for option in df.index.to_numpy()]
     options_array_str = ", ".join([str(choice) for choice in options_array])
-    print(f"These are all records for the {trip_name} trip:\n")
-    show_trip_entries(df)
+    show_trip_entries(trip_name, df)
     print("Press 'e' to edit, 'd' to delete, or 'a' to add an entry")
     while True:
         user_choice = input("Select one of the above or 'c' to go back:\n")
@@ -448,8 +447,12 @@ def edit_trip(trip_name, df):
         break
 
 
-def show_trip_entries(df):
-    print(f"{df}\n")
+def show_trip_entries(trip_name, df):
+    if df.shape[0] == 0:
+        print(f"The {trip_name} trip is empty.\n")
+    else:
+        print(f"The {trip_name} trip contains the following entries:\n")
+        print(f"{df}\n")
 
 
 def delete_trip_entry(trip_name, entry_ind):
@@ -511,8 +514,7 @@ def delete_trip(trip_name, df):
     before deleting it.
     """
     worksheet = SHEET.worksheet(trip_name)
-    print(f"The {trip_name} contains the following entries:\n")
-    print(f"{df}\n")
+    show_trip_entries(trip_name, df)
     print(f"Are you sure you want to delete it?\n")
     while True:
         user_choice = input("Press 'Y' to delete or 'N' to cancel:\n")
@@ -523,6 +525,8 @@ def delete_trip(trip_name, df):
         elif user_choice.lower() == "y":
             SHEET.del_worksheet(worksheet)
             print(f"{trip_name} successfully deleted!")
+            time.sleep(2)
+            os.system("clear")
             welcome_menu()
 
 
