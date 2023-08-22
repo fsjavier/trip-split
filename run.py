@@ -344,7 +344,12 @@ def load_trips():
 
 def select_trip(trip_name):
     """
-
+    Select the worksheet containing the chosen trip.
+    The user is presented with the options to:
+        1. See the summary of the trip.
+        2. Edit the trip.
+        3. Delete the trip.
+    A loop runs until the option chosen is valid.
     """
     worksheet = SHEET.worksheet(trip_name)
     data = worksheet.get_all_values()
