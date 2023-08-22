@@ -424,7 +424,7 @@ def edit_trip(trip_name, df):
             if user_choice.lower() == "c":
                 time.sleep(0.5)
                 os.system("clear")
-                welcome_menu()
+                select_trip(trip_name)
             elif user_choice.lower() == "a":
                 os.system("clear")
                 print(f"You are creating a new entry for {trip_name}")
@@ -442,7 +442,7 @@ def edit_trip(trip_name, df):
             if user_choice.lower() == "c":
                 time.sleep(0.5)
                 os.system("clear")
-                welcome_menu()
+                select_trip(trip_name)
             if user_choice.lower() == "e":
                 edit_delete_entry(options_array, options_array_str, trip_name, edit_trip_entry, option_chosen="edit")
             if user_choice.lower() == "d":
