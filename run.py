@@ -3,6 +3,7 @@ from google.oauth2.service_account import Credentials
 import os
 from tabulate import tabulate
 from datetime import datetime
+import time
 import pandas as pd
 
 # Every Google account has as an IAM (Identity and Access Management)
@@ -46,11 +47,10 @@ def welcome_menu():
                     if trip_name in trips:
                         os.system("clear")
                         print(f"The trip {trip_name} already exists")
-                        print("Please select a different name")
+                        print("Please select a different name.\n")
                     else:
                         print("Creating new trip...")
                         create_new_trip(trip_name)
-                        print(f"{trip_name} successfully created!")
                         break
             elif validated_choice_num == 2:
                 load_trips()
@@ -90,6 +90,8 @@ def create_new_trip(name):
     worksheet = SHEET.worksheet(name)
     header = ["Date", "Name", "Concept", "Cost", "Currency"]
     worksheet.append_row(header)
+    print(f"{name} successfully created!")
+    time.sleep(1.5)
 
     while True:
         os.system("clear")
@@ -101,7 +103,8 @@ def create_new_trip(name):
             print(f"Invalid option: {e}")
         else:
             if add_expense.lower() == "n":
-                break
+                os.system("clear")
+                welcome_menu()
             elif add_expense.lower() == "y":
                 create_expense(name)
 
