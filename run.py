@@ -109,7 +109,7 @@ def create_new_trip(name):
 def create_expense(trip_name):
     """
     Call all functions to get expense data from user.
-    Create an instance from expense class and call write_expense
+    Create an instance from expense class and call write_new_expense
     function passing the expense.
     """
     worksheet = trip_name
@@ -123,7 +123,7 @@ def create_expense(trip_name):
 
     expense = Expense(date, name, concept, cost, currency)
 
-    check_expense(worksheet, expense)
+    check_expense(write_new_expense, worksheet, expense, row_edit=0)
 
 
 def get_date():
@@ -258,11 +258,12 @@ class Expense:
         self.currency = currency
 
 
-def check_expense(trip_name, expense):
+def check_expense(update_worksheet ,trip_name, expense, row_edit):
     """
     Loop asking if the data entered is correct. The user has the possibility
     to change any field. When the user is happy with the data entered, will call
-    the write_expense function and then can choose to add another expense.
+    the update_worksheet paramete will call the appropiate function so that the
+    entry will be either added or edited.
     The user has the possibility to cancel at any time.
     """
     worksheet = SHEET.worksheet(trip_name)
@@ -296,17 +297,18 @@ def check_expense(trip_name, expense):
         elif field.lower() == "c":
             welcome_menu()
         elif field.lower() == "y":
-            write_expense(worksheet, expense)
+            update_worksheet(trip_name, expense, row_edit)
             break
         else:
             os.system("clear")
             print("The value entered is not valid. Please try again.\n")
 
 
-def write_expense(worksheet, expense):
+def write_new_expense(worksheet, expense, row_edit):
     """
-    Writes the expense to the trip spreadhseet.
+    Appends a new the expense to the trip spreadhseet.
     """
+    worksheet = SHEET.worksheet(worksheet)
     expense_arr = [value for attr, value in expense.__dict__.items()]
     worksheet.append_row(expense_arr)
 
@@ -483,11 +485,22 @@ def edit_trip_entry(trip_name, entry_ind):
     date = values_list[0]
     name = values_list[1]
     concept = values_list[2]
-    cost = values_list[3]
+    cost = float(values_list[3].replace(',', '.')) # Convert to float from str
     currency = values_list[4]
     expense = Expense(date, name, concept, cost, currency)
 
-    check_expense(trip_name, expense)
+    check_expense(overwrite_expense, trip_name, expense, row_edit)
+
+
+def overwrite_expense(worksheet, expense, row_edit):
+    """
+    Overwrites the existing expense in the trip worksheet.
+    """
+    worksheet = SHEET.worksheet(worksheet)
+    expense_arr = [value for attr, value in expense.__dict__.items()]
+    row_edit_str = str(row_edit)
+    worksheet.update(f"A{row_edit}:E{row_edit}" , [expense_arr])
+
 
 def delete_trip(trip_name):
     pass
