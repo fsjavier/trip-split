@@ -363,7 +363,9 @@ def write_new_expense(worksheet, expense, row_edit):
     expense_arr = [value for attr, value in expense.__dict__.items()] # Iterate over the attributes of the class
     expense_arr_write = expense_arr[1:] # Index 0 is the trip name, which won't be added
 
-    cost_chosen_currency = expense.get_exchange_rate()
+    exchange_rate = float(expense.get_exchange_rate().replace(",", "."))
+    cost_chosen_currency = expense_arr[4] * exchange_rate # Index 4 is the cost
+
     chosen_currency = expense.get_chosen_currency()
 
     expense_arr_write.append(cost_chosen_currency)
@@ -608,7 +610,8 @@ def overwrite_expense(worksheet, expense, row_edit):
     expense_arr = [value for attr, value in expense.__dict__.items()]
     expense_arr_write = expense_arr[1:] # Index 0 is the trip name, which won't be added
 
-    cost_chosen_currency = expense.get_exchange_rate()
+    exchange_rate = float(expense.get_exchange_rate().replace(",", "."))
+    cost_chosen_currency = expense_arr[4] * exchange_rate # Index 4 is the cost
     chosen_currency = expense.get_chosen_currency()
 
     expense_arr_write.append(cost_chosen_currency)
