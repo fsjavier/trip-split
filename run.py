@@ -90,8 +90,8 @@ def create_new_trip(name):
     print("Please select your base currency.")
     print("All your expenses will be converted to this currency")
     print("and will be used to show the summary of your trip.\n")
-    chosen_currency = get_currency(name)
 
+    chosen_currency = get_currency(name)
     worksheet.append_row(header)
     worksheet.update("J1", [[chosen_currency]])
 
@@ -129,7 +129,7 @@ def create_expense(trip_name):
     cost = get_cost(trip_name)
     currency = get_currency(trip_name)
 
-    expense = Expense(date, name, concept, cost, currency)
+    expense = Expense(trip_name, date, name, concept, cost, currency)
 
     check_expense(write_new_expense, worksheet, expense, row_edit=0)
 
@@ -256,12 +256,52 @@ def get_currency(trip_name):
 
 
 class Expense:
-    def __init__(self, date, name, concept, cost, currency):
+    """
+    Expense class.
+    Contains all necessary attributes that a user must provide.
+    Chosen currency and exchange rate are returned trhough the methods.
+    """
+    def __init__(self, trip_name, date, name, concept, cost, currency):
+        """
+        Initialize the Expense object.
+        """
+        self.trip_name = trip_name
         self.date = date
         self.name = name
         self.concept = concept
         self.cost = cost
         self.currency = currency
+
+    def get_chosen_currency(self):
+        """
+        Retrieves the chosen currency from the worksheet an return its value.
+        """
+        worksheet = SHEET.worksheet(self.trip_name)
+        chosen_currency = worksheet.acell('J1').value #J1 is the cell decided to store the value in crate_new_trip()
+        return chosen_currency
+
+    def get_exchange_rate(self):
+        """
+        Get the exchage rate from the 'currency_exchange' worksheet.
+        Return the value based on the currencies entered by the user
+        when creating the trip and expense.
+        """
+        worksheet_currencies = SHEET.worksheet("currency_exchange")
+        currencies_list = worksheet_currencies.get_all_values()
+        
+        worksheet_trip = SHEET.worksheet(self.trip_name)
+
+        currency_base = self.currency
+        currency_other = worksheet_trip.acell('J1').value
+        matching_row = 0
+
+        for row in currencies_list:
+            if row[0] == currency_base and row[2] == currency_other:
+                matching_row = row
+                break
+        
+        exchange_rate = matching_row[3]
+        return exchange_rate
 
 
 def check_expense(update_worksheet ,trip_name, expense, row_edit):
@@ -314,10 +354,20 @@ def check_expense(update_worksheet ,trip_name, expense, row_edit):
 def write_new_expense(worksheet, expense, row_edit):
     """
     Appends a new the expense to the trip spreadhseet.
+    Call methods from expense class to get the exchange rate
+    of the chosen currency.
     """
     worksheet = SHEET.worksheet(worksheet)
-    expense_arr = [value for attr, value in expense.__dict__.items()]
-    worksheet.append_row(expense_arr)
+    expense_arr = [value for attr, value in expense.__dict__.items()] # Iterate over the attributes of the class
+    expense_arr_write = expense_arr[1:] # Index 0 is the trip name, which won't be added
+
+    cost_chosen_currency = expense.get_exchange_rate()
+    chosen_currency = expense.get_chosen_currency()
+
+    expense_arr_write.append(cost_chosen_currency)
+    expense_arr_write.append(chosen_currency)
+
+    worksheet.append_row(expense_arr_write, table_range="A:G") # Need to specify range to avoid appending in wrong place
 
 
 def load_trips():
