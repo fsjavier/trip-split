@@ -313,8 +313,10 @@ def check_expense(update_worksheet ,trip_name, expense, row_edit):
     The user has the possibility to cancel at any time.
     """
     while True:
+        record = [(attr, value) for attr, value in expense.__dict__.items()] # Iterate over the attributes of the class
+        record_to_display = record[1:] # Index 0 is the trip name, which won't be added
         print(f"This is the record:\n")
-        print(tabulate([(attr, value) for attr, value in expense.__dict__.items()]))
+        print(tabulate(record_to_display))
         print("Press 'Y' if you want to confirm the expense")
         print("Press 'C' if you want to cancel\n")
         print("If you want to make a change, enter the field you want to modify")
@@ -590,7 +592,7 @@ def edit_trip_entry(trip_name, entry_ind):
     concept = values_list[2]
     cost = float(values_list[3].replace(",", ".")) # Convert to float from str
     currency = values_list[4]
-    expense = Expense(date, name, concept, cost, currency)
+    expense = Expense(trip_name, date, name, concept, cost, currency)
 
     check_expense(overwrite_expense, trip_name, expense, row_edit)
     time.sleep(1.5)
@@ -604,7 +606,14 @@ def overwrite_expense(worksheet, expense, row_edit):
     """
     worksheet = SHEET.worksheet(worksheet)
     expense_arr = [value for attr, value in expense.__dict__.items()]
-    worksheet.update(f"A{row_edit}:E{row_edit}" , [expense_arr])
+
+    cost_chosen_currency = expense.get_exchange_rate()
+    chosen_currency = expense.get_chosen_currency()
+
+    expense_arr_write.append(cost_chosen_currency)
+    expense_arr_write.append(chosen_currency)
+
+    worksheet.update(f"A{row_edit}:G{row_edit}" , [expense_arr])
     print("Expense successfully edited!")
 
 
