@@ -450,23 +450,27 @@ def select_trip(trip_name):
 def see_trip_summary(trip_name, df):
     """
     Print a table displaying how much each person spent.
-    It also shows how much each has to pay/receive so that
-    everyone pays the same amount
+    It also shows how much each has to pay/receive so that everyone
+    pays the same amount. 
+    All displayed amounts have been converted to the user's currency.
     """
     if df.shape[0] == 0:
         print("There are no entries for this trip\n")
     
     else:
+        chosen_currency = df["Chosen_currency"][1]
         nr_of_persons = df["Name"].value_counts().shape[0]
-        df["Cost"] = df["Cost"].str.replace(",", ".").astype(float) # Convert to float so that it can be added up
-        total_cost = df["Cost"].sum() # Calculate the total cost of the trip
+        df["Cost_chosen_currency"] = df["Cost_chosen_currency"].str.replace(",", ".").astype(float) # Convert to float so that it can be added up
+        total_cost = df["Cost_chosen_currency"].sum() # Calculate the total cost of the trip
         avg_cost = total_cost / nr_of_persons # Calculate how much each person should pay
-        sum_by_name = df.groupby("Name")["Cost"].sum() # Calculate how much each person has paid
+        sum_by_name = df.groupby("Name")["Cost_chosen_currency"].sum() # Calculate how much each person has paid
         sum_by_name_list = [(name, value) for name, value in sum_by_name.items()] # Create list to be displayed
         header = ["Name", "Spent", "Price per person", "To pay (-) / Receive (+)"]
-        cost_diff = [(name, value, round(avg_cost, 2), round(value - avg_cost, 2)) for name, value in sum_by_name_list]
+        cost_diff = [(name, round(value, 2), round(avg_cost, 2), round(value - avg_cost, 2)) for name, value in sum_by_name_list]
         
         print(f"This is the summary of the {trip_name} trip:\n")
+        print(f"You have selected {chosen_currency} as your currency.")
+        print(f"The total cost of the trip in {chosen_currency} is {round(total_cost, 2)}.\n")
         print(tabulate(cost_diff, headers=header, tablefmt="mixed_grid", numalign="center"))
 
 
