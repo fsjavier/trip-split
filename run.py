@@ -538,11 +538,12 @@ def show_trip_entries(trip_name, df):
     Check if the worksheet is empty.
     If it's not empty displays the expenses.
     """
+    relevant_columns = ["Date", "Name", "Concept", "Cost", "Currency"]
     if df.shape[0] == 0:
         print(f"The {trip_name} trip is empty.\n")
     else:
         print(f"The {trip_name} trip contains the following entries:\n")
-        print(f"{df}\n")
+        print(f"{df[relevant_columns]}\n")
 
 
 def delete_trip_entry(trip_name, entry_ind):
