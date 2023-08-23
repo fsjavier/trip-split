@@ -48,7 +48,7 @@ def welcome_menu():
                         print(f"The trip {trip_name} already exists")
                         print("Please select a different name.\n")
                     else:
-                        print("Creating new trip...")
+                        print("Creating new trip...\n")
                         create_new_trip(trip_name)
             elif validated_choice_num == 2:
                 load_trips()
@@ -85,8 +85,16 @@ def create_new_trip(name):
     """
     SHEET.add_worksheet(title=name, rows=100, cols=20)
     worksheet = SHEET.worksheet(name)
-    header = ["Date", "Name", "Concept", "Cost", "Currency"]
+    header = ["Date", "Name", "Concept", "Cost", "Currency", "Cost_chosen_currency", "Chosen_currency"]
+
+    print("Please select your base currency.")
+    print("All your expenses will be converted to this currency")
+    print("and will be used to show the summary of your trip.\n")
+    chosen_currency = get_currency(name)
+
     worksheet.append_row(header)
+    worksheet.update("J1", [[chosen_currency]])
+
     print(f"{name} successfully created!")
     time.sleep(1.5)
 
