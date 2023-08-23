@@ -50,10 +50,8 @@ def welcome_menu():
                     else:
                         print("Creating new trip...")
                         create_new_trip(trip_name)
-                        break
             elif validated_choice_num == 2:
                 load_trips()
-                break
 
 
 def validate_user_choice(data, choices):
@@ -145,12 +143,10 @@ def get_date(trip_name):
                 select_trip(trip_name)
             else:
                 date_obj = datetime.strptime(date, date_format)
-                break
+                os.system("clear")
+                return date_obj.strftime("%d/%m/%Y")
         except ValueError:
             print("The date entered is not valid, please try again")
-
-    os.system("clear")
-    return date_obj.strftime("%d/%m/%Y")
 
 
 def get_name(trip_name):
@@ -347,7 +343,6 @@ def load_trips():
             if validated_choice_bool:
                 selected_trip = trips[validated_choice_num]
                 select_trip(selected_trip)
-                break
 
 
 def select_trip(trip_name):
@@ -539,7 +534,7 @@ def edit_trip_entry(trip_name, entry_ind):
     expense = Expense(date, name, concept, cost, currency)
 
     check_expense(overwrite_expense, trip_name, expense, row_edit)
-    time.sleep(1)
+    time.sleep(1.5)
     os.system("clear")
     select_trip(trip_name)
 
