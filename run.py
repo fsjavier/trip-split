@@ -606,6 +606,7 @@ def overwrite_expense(worksheet, expense, row_edit):
     """
     worksheet = SHEET.worksheet(worksheet)
     expense_arr = [value for attr, value in expense.__dict__.items()]
+    expense_arr_write = expense_arr[1:] # Index 0 is the trip name, which won't be added
 
     cost_chosen_currency = expense.get_exchange_rate()
     chosen_currency = expense.get_chosen_currency()
@@ -613,7 +614,7 @@ def overwrite_expense(worksheet, expense, row_edit):
     expense_arr_write.append(cost_chosen_currency)
     expense_arr_write.append(chosen_currency)
 
-    worksheet.update(f"A{row_edit}:G{row_edit}" , [expense_arr])
+    worksheet.update(f"A{row_edit}:G{row_edit}" , [expense_arr_write])
     print("Expense successfully edited!")
 
 
