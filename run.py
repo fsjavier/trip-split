@@ -334,7 +334,9 @@ def load_trips():
         os.system("clear")
         print("These are the existing trips:")
         print(tabulate([(str(trip_num), trip) for trip_num, trip in trips.items()]))
-        print(f"Select your prefered option: {options} or 'C' to go back.")
+        print("You can choose the trip selecting its number:\n")
+        print(options)
+        print("Or 'C' to go back.\n")
         while True:
             user_choice = input(f"Enter your selection:\n")
             if user_choice.lower() == "c":
@@ -363,12 +365,14 @@ def select_trip(trip_name):
     rows = data[1:]
     df = pd.DataFrame(rows, columns=header)
     os.system("clear")
-    print(f"You've selected the {trip_name} trip.")
-    print(f"There are {df.shape[0]} entries.\n")
-    print("What would you like to do?")
-    print(tabulate([[1, "See summary"], [2, "Edit trip"], [3, "Delete trip"]]))
+    print(f"You have ve selected the {trip_name} trip.")
+    print("There is 1 entry.\n" if df.shape[0] == 1 else f"There are {df.shape[0]} entries.\n")
+    # print(f"There are {df.shape[0]} entries.\n")
+    print("What would you like to do?\n")
+    print(tabulate([[1, "See summary"], [2, "Edit trip"], [3, "Delete trip"]])+"\n")
+    print("Please, select the number of your prefered option")
     while True:
-        user_choice = input("Please, select your prefered option or press 'C' to go back:\n")
+        user_choice = input("Or press 'C' to go back:\n")
         validated_choice = validate_user_choice(user_choice, range(1, 4))
         validated_choice_bool, validated_choice_num = validated_choice
         if validated_choice_bool or user_choice.lower() == "c":
