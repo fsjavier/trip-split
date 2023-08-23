@@ -101,7 +101,7 @@ def create_new_trip(name):
         else:
             if add_expense.lower() == "n":
                 os.system("clear")
-                welcome_menu()
+                select_trip(name)
             elif add_expense.lower() == "y":
                 create_expense(name)
 
