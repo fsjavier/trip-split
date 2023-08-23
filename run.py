@@ -21,9 +21,6 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open("trip_split")
 
-WORKSHEETS = SHEET.worksheets()
-
-
 def welcome_menu():
     """
     Print welcome message and ask to choose between create trip and see list.
@@ -31,11 +28,13 @@ def welcome_menu():
     Run a while loop asking for input until it's a valid option.
     If it's a new trip run a while loop until the name of the trip is new.
     """
+    worksheets = SHEET.worksheets()
+
     print("What would you like to do?")
     print(tabulate([[1, "Create new trip"], [2, "See existing trips"]]))
 
     while True:
-        trips = [trip.title for trip in WORKSHEETS]
+        trips = [trip.title for trip in worksheets]
         user_choice = input("Please, select your prefered option (1 or 2):\n")
         validated_choice = validate_user_choice(user_choice, range(1, 3))
         validated_choice_bool, validated_choice_num = validated_choice
@@ -323,7 +322,8 @@ def load_trips():
     The user can select one of the trips.
     The function returns the name of the selected trip.
     """
-    trips = {x + 1: worksheet.title for x, worksheet in enumerate(WORKSHEETS[1:])}
+    worksheets = SHEET.worksheets()
+    trips = {x + 1: worksheet.title for x, worksheet in enumerate(worksheets[1:])}
     options_arr = [key for key, value in trips.items()]
     options = ", ".join([str(key) for key, value in trips.items()])
     selected_trip = ""
@@ -367,7 +367,6 @@ def select_trip(trip_name):
     os.system("clear")
     print(f"You have ve selected the {trip_name} trip.")
     print("There is 1 entry.\n" if df.shape[0] == 1 else f"There are {df.shape[0]} entries.\n")
-    # print(f"There are {df.shape[0]} entries.\n")
     print("What would you like to do?\n")
     print(tabulate([[1, "See summary"], [2, "Edit trip"], [3, "Delete trip"]])+"\n")
     print("Please, select the number of your prefered option")
