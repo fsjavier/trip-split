@@ -33,6 +33,7 @@ def clear_terminal():
 
 def welcome_art():
     """
+    Print ASCII welcome message.
     """
     print(
     """
@@ -129,7 +130,14 @@ def create_new_trip(name):
 
     SHEET.add_worksheet(title=name, rows=100, cols=20)
     worksheet = SHEET.worksheet(name)
-    header = ["Date", "Name", "Concept", "Cost", "Currency", "Cost_chosen_currency", "Chosen_currency"]
+    header = [
+        "Date",
+        "Name",
+        "Concept",
+        "Cost",
+        "Currency",
+        "Cost_chosen_currency",
+        "Chosen_currency"]
     worksheet.append_row(header)
     worksheet.update("J1", [[chosen_currency]])
 
@@ -138,10 +146,14 @@ def create_new_trip(name):
 
     while True:
         clear_terminal()
-        add_expense = input(f"Do you want to add an expense for your {name} trip? (Y / N):\n")
+        add_expense = input(
+            f"Do you want to add an expense for your {name} trip? (Y / N):\n"
+        )
         try:
             if add_expense.lower() not in ["y", "n"]:
-                raise ValueError(f"You selected {add_expense}. Please select Y or N")
+                raise ValueError(
+                    f"You selected {add_expense}. Please select Y or N"
+                )
         except ValueError as e:
             print(f"Invalid option: {e}")
         else:
@@ -230,8 +242,16 @@ def get_concept(trip_name):
     }
     concepts_headers = ["Code", "Concept"]
 
-    print("Enter the code number for the concept that better describes the expense.\n")
-    print(tabulate([(str(code), concept) for code, concept in concepts.items()], headers=concepts_headers, tablefmt="mixed_grid"))
+    print(
+        "Enter the code number of the concept better describing the expense.\n"
+    )
+    print(
+        tabulate(
+            [(str(code), concept) for code, concept in concepts.items()],
+            headers=concepts_headers,
+            tablefmt="mixed_grid"
+        )
+    )
     print("")
 
     while True:
@@ -280,7 +300,13 @@ def get_currency(trip_name):
     currencies_headers = ["Code", "Currency"]
 
     print("Select one of the following code options:\n")
-    print(tabulate([(str(code), currency) for code, currency in currencies.items()], headers=currencies_headers, tablefmt="mixed_grid"))
+    print(
+        tabulate(
+            [(str(code), currency) for code, currency in currencies.items()],
+            headers=currencies_headers,
+            tablefmt="mixed_grid"
+        )
+    )
 
     while True:
         print("")
@@ -323,7 +349,9 @@ class Expense:
         Retrieves the chosen currency from the worksheet an return its value.
         """
         worksheet = SHEET.worksheet(self.trip_name)
-        chosen_currency = worksheet.acell('J1').value #J1 is the cell decided to store the value in crate_new_trip()
+        chosen_currency = worksheet.acell(
+            "J1"
+        ).value  # J1 is the cell storing the value in crate_new_trip()
         return chosen_currency
 
     def get_exchange_rate(self):
@@ -334,7 +362,7 @@ class Expense:
         """
         worksheet_currencies = SHEET.worksheet("currency_exchange")
         currencies_list = worksheet_currencies.get_all_values()
-        
+
         worksheet_trip = SHEET.worksheet(self.trip_name)
 
         currency_base = self.currency
@@ -345,27 +373,30 @@ class Expense:
             if row[0] == currency_base and row[2] == currency_other:
                 matching_row = row
                 break
-        
+
         exchange_rate = matching_row[3]
         return exchange_rate
 
 
-def check_expense(update_worksheet ,trip_name, expense, row_edit):
+def check_expense(update_worksheet, trip_name, expense, row_edit):
     """
     Loop asking if the data entered is correct. The user has the possibility
-    to change any field. When the user is happy with the data entered, will call
-    the update_worksheet paramete will call the appropiate function so that the
-    entry will be either added or edited.
+    to change any field. Then the update_worksheet parameter will call the
+    appropiate function so that the entry will be either added or edited.
     The user has the possibility to cancel at any time.
     """
     while True:
-        record = [(attr, value) for attr, value in expense.__dict__.items()] # Iterate over the attributes of the class
-        record_to_display = record[1:] # Index 0 is the trip name, which won't be added
+        record = [
+            (attr, value) for attr, value in expense.__dict__.items()
+        ]  # Iterate over the attributes of the class
+        record_to_display = record[
+            1:
+        ]  # Index 0 is the trip name, which won't be added
         print(f"This is the record:\n")
         print(tabulate(record_to_display))
         print("Press Y if you want to confirm the expense")
         print("Press C if you want to cancel\n")
-        print("If you want to make a change, enter the field you want to modify")
+        print("If you want to make a change, enter name of the field.")
         field = input("Example: name\n")
         if field.lower() == "date":
             new_date = get_date(trip_name)
@@ -406,18 +437,27 @@ def write_new_expense(worksheet, expense, row_edit):
     of the chosen currency.
     """
     worksheet = SHEET.worksheet(worksheet)
-    expense_arr = [value for attr, value in expense.__dict__.items()] # Iterate over the attributes of the class
-    expense_arr_write = expense_arr[1:] # Index 0 is the trip name, which won't be added
+    expense_arr = [
+        value for attr, value in expense.__dict__.items()
+    ]  # Iterate over the attributes of the class
+    expense_arr_write = expense_arr[
+        1:
+    ]  # Index 0 is the trip name, which won't be added
 
     exchange_rate = float(expense.get_exchange_rate().replace(",", "."))
-    cost_chosen_currency = expense_arr[4] * exchange_rate # Index 4 is the cost
+    cost_chosen_currency = (
+        expense_arr[4] * exchange_rate
+    )  # Index 4 is the cost
 
     chosen_currency = expense.get_chosen_currency()
 
     expense_arr_write.append(cost_chosen_currency)
     expense_arr_write.append(chosen_currency)
 
-    worksheet.append_row(expense_arr_write, table_range="A:G") # Need to specify range to avoid appending in wrong place
+    worksheet.append_row(
+        expense_arr_write,
+        table_range="A:G"
+    )  # Need to specify range to avoid appending in wrong place
 
 
 def load_trips():
@@ -427,7 +467,9 @@ def load_trips():
     The function returns the name of the selected trip.
     """
     worksheets = SHEET.worksheets()
-    trips = {x + 1: worksheet.title for x, worksheet in enumerate(worksheets[1:])}
+    trips = {
+        x + 1: worksheet.title for x, worksheet in enumerate(worksheets[1:])
+    }
     options_arr = [key for key, value in trips.items()]
     options = ", ".join([str(key) for key, value in trips.items()])
     selected_trip = ""
@@ -437,7 +479,11 @@ def load_trips():
     else:
         clear_terminal()
         print("These are the existing trips:\n")
-        print(tabulate([(str(trip_num), trip) for trip_num, trip in trips.items()]))
+        print(
+            tabulate(
+                [(str(trip_num), trip) for trip_num, trip in trips.items()]
+            )
+        )
         print("")
         while True:
             print("Enter the number of the trip you want to edit:")
@@ -470,9 +516,16 @@ def select_trip(trip_name):
     df = pd.DataFrame(rows, columns=header)
     clear_terminal()
     print(f"You have selected the {trip_name} trip.")
-    print("There is 1 entry.\n" if df.shape[0] == 1 else f"There are {df.shape[0]} entries.\n")
+    print(
+        "There is 1 entry.\n"
+        if df.shape[0] == 1
+        else f"There are {df.shape[0]} entries.\n"
+    )
     print("What would you like to do?\n")
-    print(tabulate([[1, "See summary"], [2, "Edit trip"], [3, "Delete trip"]])+"\n")
+    print(
+        tabulate([[1, "See summary"], [2, "Edit trip"], [3, "Delete trip"]])
+        + "\n"
+    )
     while True:
         print("Please, enter the number of your prefered option:")
         user_choice = input("1, 2, 3 or enter C to go back:\n")
@@ -498,27 +551,59 @@ def see_trip_summary(trip_name, df):
     """
     Print a table displaying how much each person spent.
     It also shows how much each has to pay/receive so that everyone
-    pays the same amount. 
+    pays the same amount.
     All displayed amounts have been converted to the user's currency.
     """
     if df.shape[0] == 0:
         print("There are no entries for this trip\n")
-    
+
     else:
-        chosen_currency = df["Chosen_currency"][1]
+        chosen_curr = df["Chosen_currency"][1]
         nr_of_persons = df["Name"].value_counts().shape[0]
-        df["Cost_chosen_currency"] = df["Cost_chosen_currency"].str.replace(",", ".").astype(float) # Convert to float so that it can be added up
-        total_cost = df["Cost_chosen_currency"].sum() # Calculate the total cost of the trip
-        avg_cost = total_cost / nr_of_persons # Calculate how much each person should pay
-        sum_by_name = df.groupby("Name")["Cost_chosen_currency"].sum() # Calculate how much each person has paid
-        sum_by_name_list = [(name, value) for name, value in sum_by_name.items()] # Create list to be displayed
-        header = ["Name", "Spent", "Price per person", "To pay (-) / Receive (+)"]
-        cost_diff = [(name, round(value, 2), round(avg_cost, 2), round(value - avg_cost, 2)) for name, value in sum_by_name_list]
-        
+        df["Cost_chosen_currency"] = (
+            df["Cost_chosen_currency"].str.replace(",", ".").astype(float)
+        )  # Convert to float so that it can be added up
+        total_cost = df[
+            "Cost_chosen_currency"
+        ].sum()  # Calculate the total cost of the trip
+        total_cost_rnd = round(total_cost, 2)
+        avg_cost = (
+            total_cost / nr_of_persons
+        )  # Calculate how much each person should pay
+        sum_by_name = df.groupby("Name")[
+            "Cost_chosen_currency"
+        ].sum()  # Calculate how much each person has paid
+        sum_by_name_list = [
+            (name, value) for name, value in sum_by_name.items()
+        ]  # Create list to be displayed
+        header = [
+            "Name",
+            "Spent",
+            "Price per person",
+            "To pay (-) / Receive (+)"
+        ]
+        cost_diff = [
+            (
+                name,
+                round(value, 2),
+                round(avg_cost, 2),
+                round(value - avg_cost, 2)
+            )
+            for name, value in sum_by_name_list]
+
         print(f"This is the summary of the {trip_name} trip:\n")
-        print(f"You have selected {chosen_currency} as your currency.")
-        print(f"The total cost of the trip in {chosen_currency} is {round(total_cost, 2)}.\n")
-        print(tabulate(cost_diff, headers=header, tablefmt="mixed_grid", numalign="center"))
+        print(f"You have selected {chosen_curr} as your currency.")
+        print(
+            f"Total cost of the trip in {chosen_curr} is {total_cost_rnd}.\n"
+        )
+        print(
+            tabulate(
+                cost_diff,
+                headers=header,
+                tablefmt="mixed_grid",
+                numalign="center"
+            )
+        )
 
 
 def edit_trip(trip_name, df):
@@ -560,9 +645,21 @@ def edit_trip(trip_name, df):
                 clear_terminal()
                 select_trip(trip_name)
             if user_choice.lower() == "e":
-                edit_delete_entry(options_array, options_array_str, trip_name, edit_trip_entry, option_chosen="edit")
+                edit_delete_entry(
+                    options_array,
+                    options_array_str,
+                    trip_name,
+                    edit_trip_entry,
+                    option_chosen="edit"
+                )
             if user_choice.lower() == "d":
-                edit_delete_entry(options_array, options_array_str, trip_name, delete_trip_entry, option_chosen="delete")
+                edit_delete_entry(
+                    options_array,
+                    options_array_str,
+                    trip_name,
+                    delete_trip_entry,
+                    option_chosen="delete"
+                )
             if user_choice.lower() == "a":
                 clear_terminal()
                 print(f"You are creating a new entry for {trip_name}")
@@ -572,7 +669,13 @@ def edit_trip(trip_name, df):
                 select_trip(trip_name)
 
 
-def edit_delete_entry(options_array, options_array_str, trip_name, edit_delete_trip_entry, option_chosen):
+def edit_delete_entry(
+    options_array,
+    options_array_str,
+    trip_name,
+    edit_delete_trip_entry,
+    option_chosen
+):
     """
     Takes in the parameters necessary to either edit or delete an entry.
     Validates the user choice and calls the appropiate function.
@@ -581,11 +684,15 @@ def edit_delete_entry(options_array, options_array_str, trip_name, edit_delete_t
         print(f"Select the number of the entry you want to {option_chosen}:")
         print(options_array_str)
         user_choice_edit_entry = input("Enter one of the above options:\n")
-        validated_choice = validate_user_choice(user_choice_edit_entry, options_array)
+        validated_choice = validate_user_choice(
+            user_choice_edit_entry, options_array
+        )
         validated_choice_bool, validated_choice_num = validated_choice
         if validated_choice_bool:
             clear_terminal()
-            print(f"You've chosen to {option_chosen} the entry number {validated_choice_num}")
+            print(
+                f"You will {option_chosen} entry number {validated_choice_num}"
+            )
             edit_delete_trip_entry(trip_name, validated_choice_num)
 
 
@@ -609,13 +716,15 @@ def delete_trip_entry(trip_name, entry_ind):
     must confirm that the entry should be deleted.
     """
     worksheet = SHEET.worksheet(trip_name)
-    row_delete = entry_ind + 2 # +2 because the spreadsheet starts at 1 and the first line is the header
+    row_delete = (
+        entry_ind + 2
+    )  # +2 because worksheet starts at 1 and the first line is the header
     values_list = worksheet.row_values(row_delete)
     header = ["Date", "Name", "Concept", "Cost", "Currency"]
     print("You are going to delete the following expense:")
     print(tabulate(zip(header, values_list)))
     while True:
-        user_choice = input("Enter Y to confirm or N to discard the changes:\n")
+        user_choice = input("Enter Y to confirm or N to discard changes:\n")
         if user_choice.lower() not in ["y", "n"]:
             print(f"{user_choice} is not a valid choice, please try again.")
         elif user_choice.lower() == "y":
@@ -635,12 +744,14 @@ def edit_trip_entry(trip_name, entry_ind):
     must confirm that the entry should be edited.
     """
     worksheet = SHEET.worksheet(trip_name)
-    row_edit = entry_ind + 2 # +2 because the spreadsheet starts at 1 and the first line is the header
+    row_edit = (
+        entry_ind + 2
+    )  # +2 because worksheet starts at 1 and the first line is the header
     values_list = worksheet.row_values(row_edit)
     date = values_list[0]
     name = values_list[1]
     concept = values_list[2]
-    cost = float(values_list[3].replace(",", ".")) # Convert to float from str
+    cost = float(values_list[3].replace(",", "."))  # Convert to float from str
     currency = values_list[4]
     expense = Expense(trip_name, date, name, concept, cost, currency)
 
@@ -656,16 +767,20 @@ def overwrite_expense(worksheet, expense, row_edit):
     """
     worksheet = SHEET.worksheet(worksheet)
     expense_arr = [value for attr, value in expense.__dict__.items()]
-    expense_arr_write = expense_arr[1:] # Index 0 is the trip name, which won't be added
+    expense_arr_write = expense_arr[
+        1:
+    ]  # Index 0 is the trip name, which won't be added
 
     exchange_rate = float(expense.get_exchange_rate().replace(",", "."))
-    cost_chosen_currency = expense_arr[4] * exchange_rate # Index 4 is the cost
+    cost_chosen_currency = (
+        expense_arr[4] * exchange_rate
+    )  # Index 4 is the cost
     chosen_currency = expense.get_chosen_currency()
 
     expense_arr_write.append(cost_chosen_currency)
     expense_arr_write.append(chosen_currency)
 
-    worksheet.update(f"A{row_edit}:G{row_edit}" , [expense_arr_write])
+    worksheet.update(f"A{row_edit}:G{row_edit}", [expense_arr_write])
     print("Expense successfully edited!")
 
 
@@ -680,7 +795,7 @@ def delete_trip(trip_name, df):
     while True:
         user_choice = input("Enter Y to delete or N to cancel:\n")
         if user_choice.lower() not in ["y", "n"]:
-            print("Invalid choice, please try again")
+            print("Invalid choice, please try again.\n")
         elif user_choice.lower() == "n":
             select_trip(trip_name)
         elif user_choice.lower() == "y":
