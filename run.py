@@ -285,12 +285,18 @@ def get_currency(trip_name):
         user_choice = input("Enter 1, 2, 3, or 'C' to cancel:\n")
         validated_choice = validate_user_choice(user_choice, range(1, 4))
         validated_choice_bool, validated_choice_num = validated_choice
-        if user_choice.lower() == "c":
+        try:
+            if user_choice.lower() == "c":
+                clear_terminal()
+                select_trip(trip_name)
+            elif validated_choice_bool:
+                clear_terminal()
+                return currencies[validated_choice_num]
+        except gspread.exceptions.WorksheetNotFound:
+            print("The trip creation process has been aborted.")
+            time.sleep(1.5)
             clear_terminal()
-            select_trip(trip_name)
-        elif validated_choice_bool:
-            clear_terminal()
-            return currencies[validated_choice_num]
+            welcome_menu()
 
 
 class Expense:
