@@ -21,6 +21,16 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open("trip_split")
 
+
+def clear_terminal():
+    """
+    Clears terminal window for better screen readability.
+    Method found on StackOverflow:
+    https://stackoverflow.com/questions/2084508/clear-terminal-in-python
+    """
+    os.system("cls" if os.name == "nt" else "clear")
+
+
 def welcome_menu():
     """
     Print welcome message and ask to choose between create trip and see list.
@@ -39,12 +49,12 @@ def welcome_menu():
         validated_choice = validate_user_choice(user_choice, range(1, 3))
         validated_choice_bool, validated_choice_num = validated_choice
         if validated_choice_bool:
-            os.system("clear")
+            clear_terminal()
             if validated_choice_num == 1:
                 while True:
                     trip_name = input("Enter the name of the trip\n")
                     if trip_name in trips:
-                        os.system("clear")
+                        clear_terminal()
                         print(f"The trip {trip_name} already exists")
                         print("Please select a different name.\n")
                     else:
@@ -99,7 +109,7 @@ def create_new_trip(name):
     time.sleep(1.5)
 
     while True:
-        os.system("clear")
+        clear_terminal()
         add_expense = input(f"Do you want to add an expense for your {name} trip? (Y / N):\n")
         try:
             if add_expense.lower() not in ["y", "n"]:
@@ -108,7 +118,7 @@ def create_new_trip(name):
             print(f"Invalid option: {e}")
         else:
             if add_expense.lower() == "n":
-                os.system("clear")
+                clear_terminal()
                 select_trip(name)
             elif add_expense.lower() == "y":
                 create_expense(name)
@@ -122,7 +132,7 @@ def create_expense(trip_name):
     """
     worksheet = trip_name
 
-    os.system("clear")
+    clear_terminal()
     date = get_date(trip_name)
     name = get_name(trip_name)
     concept = get_concept(trip_name)
@@ -147,11 +157,11 @@ def get_date(trip_name):
             print("Enter date in the following format dd/mm/yyyy")
             date = input("Example: 31/06/2023 or press 'C' to cancel:\n")
             if date.lower() == "c":
-                os.system("clear")
+                clear_terminal()
                 select_trip(trip_name)
             else:
                 date_obj = datetime.strptime(date, date_format)
-                os.system("clear")
+                clear_terminal()
                 return date_obj.strftime("%d/%m/%Y")
         except ValueError:
             print("The date entered is not valid, please try again")
@@ -168,9 +178,9 @@ def get_name(trip_name):
             print("Enter a name for the expense")
             name = input("Example: 'John' or press 'C' to cancel:\n").title()
             if name.lower() == "c":
-                os.system("clear")
+                clear_terminal()
                 select_trip(trip_name)
-            os.system("clear")
+            clear_terminal()
             return name
         except ValueError:
             print("The name entered is not valid, please try again")
@@ -200,10 +210,10 @@ def get_concept(trip_name):
         validated_choice = validate_user_choice(user_choice, range(1, 7))
         validated_choice_bool, validated_choice_num = validated_choice
         if user_choice.lower() == "c":
-            os.system("clear")
+            clear_terminal()
             select_trip(trip_name)
         elif validated_choice_bool:
-            os.system("clear")
+            clear_terminal()
             return concepts[validated_choice_num]
 
 
@@ -218,10 +228,10 @@ def get_cost(trip_name):
         try:
             cost = input("Example: '19.95' or press 'C' to cancel:\n")
             if cost.lower() == "c":
-                os.system("clear")
+                clear_terminal()
                 select_trip(trip_name)
             cost_float = float(cost)
-            os.system("clear")
+            clear_terminal()
             return cost_float
         except ValueError:
             print("The cost entered is not valid, please try again")
@@ -248,10 +258,10 @@ def get_currency(trip_name):
         validated_choice = validate_user_choice(user_choice, range(1, 4))
         validated_choice_bool, validated_choice_num = validated_choice
         if user_choice.lower() == "c":
-            os.system("clear")
+            clear_terminal()
             select_trip(trip_name)
         elif validated_choice_bool:
-            os.system("clear")
+            clear_terminal()
             return currencies[validated_choice_num]
 
 
@@ -324,32 +334,32 @@ def check_expense(update_worksheet ,trip_name, expense, row_edit):
         if field.lower() == "date":
             new_date = get_date(trip_name)
             expense.date = new_date
-            os.system("clear")
+            clear_terminal()
         elif field.lower() == "name":
             new_name = get_name(trip_name)
             expense.name = new_name
-            os.system("clear")
+            clear_terminal()
         elif field.lower() == "concept":
             new_concept = get_concept(trip_name)
             expense.concept = new_concept
-            os.system("clear")
+            clear_terminal()
         elif field.lower() == "cost":
             new_cost = get_cost(trip_name)
             expense.cost = new_cost
-            os.system("clear")
+            clear_terminal()
         elif field.lower() == "currency":
             new_currency = get_currency(trip_name)
             expense.currency = new_currency
-            os.system("clear")
+            clear_terminal()
         elif field.lower() == "c":
             time.sleep(0.5)
-            os.system("clear")
+            clear_terminal()
             select_trip(trip_name)
         elif field.lower() == "y":
             update_worksheet(trip_name, expense, row_edit)
             break
         else:
-            os.system("clear")
+            clear_terminal()
             print("The value entered is not valid. Please try again.\n")
 
 
@@ -389,7 +399,7 @@ def load_trips():
         print("There are currently no trips\n")
         welcome_menu()
     else:
-        os.system("clear")
+        clear_terminal()
         print("These are the existing trips:")
         print(tabulate([(str(trip_num), trip) for trip_num, trip in trips.items()]))
         print("You can choose the trip selecting its number:\n")
@@ -398,7 +408,7 @@ def load_trips():
         while True:
             user_choice = input(f"Enter your selection:\n")
             if user_choice.lower() == "c":
-                os.system("clear")
+                clear_terminal()
                 welcome_menu()
             validated_choice = validate_user_choice(user_choice, options_arr)
             validated_choice_bool, validated_choice_num = validated_choice
@@ -421,7 +431,7 @@ def select_trip(trip_name):
     header = data[0]
     rows = data[1:]
     df = pd.DataFrame(rows, columns=header)
-    os.system("clear")
+    clear_terminal()
     print(f"You have selected the {trip_name} trip.")
     print("There is 1 entry.\n" if df.shape[0] == 1 else f"There are {df.shape[0]} entries.\n")
     print("What would you like to do?\n")
@@ -432,7 +442,7 @@ def select_trip(trip_name):
         validated_choice = validate_user_choice(user_choice, range(1, 4))
         validated_choice_bool, validated_choice_num = validated_choice
         if validated_choice_bool or user_choice.lower() == "c":
-            os.system("clear")
+            clear_terminal()
             if user_choice.lower() == "c":
                 load_trips()
             elif validated_choice_num == 1:
@@ -491,10 +501,10 @@ def edit_trip(trip_name, df):
                 continue
             if user_choice.lower() == "c":
                 time.sleep(0.5)
-                os.system("clear")
+                clear_terminal()
                 select_trip(trip_name)
             elif user_choice.lower() == "a":
-                os.system("clear")
+                clear_terminal()
                 print(f"You are creating a new entry for {trip_name}")
                 create_expense(trip_name)
                 print("Expense added successfully!")
@@ -509,14 +519,14 @@ def edit_trip(trip_name, df):
                 continue
             if user_choice.lower() == "c":
                 time.sleep(0.5)
-                os.system("clear")
+                clear_terminal()
                 select_trip(trip_name)
             if user_choice.lower() == "e":
                 edit_delete_entry(options_array, options_array_str, trip_name, edit_trip_entry, option_chosen="edit")
             if user_choice.lower() == "d":
                 edit_delete_entry(options_array, options_array_str, trip_name, delete_trip_entry, option_chosen="delete")
             if user_choice.lower() == "a":
-                os.system("clear")
+                clear_terminal()
                 print(f"You are creating a new entry for {trip_name}")
                 create_expense(trip_name)
                 print("Expense added successfully!")
@@ -536,7 +546,7 @@ def edit_delete_entry(options_array, options_array_str, trip_name, edit_delete_t
         validated_choice = validate_user_choice(user_choice_edit_entry, options_array)
         validated_choice_bool, validated_choice_num = validated_choice
         if validated_choice_bool:
-            os.system("clear")
+            clear_terminal()
             print(f"You've chosen to {option_chosen} the entry number {validated_choice_num}")
             edit_delete_trip_entry(trip_name, validated_choice_num)
 
@@ -574,7 +584,7 @@ def delete_trip_entry(trip_name, entry_ind):
             worksheet.delete_rows(row_delete)
             print("Entry successfully deleted.")
             time.sleep(1)
-            os.system("clear")
+            clear_terminal()
             select_trip(trip_name)
         elif user_choice.lower() == "n":
             select_trip(trip_name)
@@ -602,7 +612,7 @@ def edit_trip_entry(trip_name, entry_ind):
 
     check_expense(overwrite_expense, trip_name, expense, row_edit)
     time.sleep(1.5)
-    os.system("clear")
+    clear_terminal()
     select_trip(trip_name)
 
 
@@ -643,8 +653,30 @@ def delete_trip(trip_name, df):
             SHEET.del_worksheet(worksheet)
             print(f"{trip_name} successfully deleted!")
             time.sleep(2)
-            os.system("clear")
+            clear_terminal()
             welcome_menu()
 
 
-welcome_menu()
+def main():
+    """
+    Run the programm.
+    """
+    print("""
+ __      __     _                           
+ \ \    / /___ | | __  ___  _ __   ___      
+  \ \/\/ // -_)| |/ _|/ _ \| '  \ / -_)     
+   \_/\_/ \___||_|\__|\___/|_|_|_|\___|     
+                _                           
+               | |_  ___                    
+               |  _|/ _ \                   
+                \__|\___/                   
+  _____      _         ___        _  _  _   
+ |_   _|_ _ (_) _ __  / __| _ __ | |(_)| |_ 
+   | | | '_|| || '_ \ \__ \| '_ \| || ||  _|
+   |_| |_|  |_|| .__/ |___/| .__/|_||_| \__|
+               |_|         |_|              
+    """)
+    welcome_menu()
+
+
+main()
