@@ -31,6 +31,29 @@ def clear_terminal():
     os.system("cls" if os.name == "nt" else "clear")
 
 
+def welcome_art():
+    """
+    """
+    print(
+    """
+    __      __     _                           
+    \ \    / /___ | | __  ___  _ __   ___      
+     \ \/\/ // -_)| |/ _|/ _ \| '  \ / -_)     
+      \_/\_/ \___||_|\__|\___/|_|_|_|\___|     
+                    _                           
+                   | |_  ___                    
+                   |  _|/ _ \                   
+                    \__|\___/                   
+     _____      _         ___        _  _  _   
+    |_   _|_ _ (_) _ __  / __| _ __ | |(_)| |_ 
+      | | | '_|| || '_ \ \__ \| '_ \| || ||  _|
+      |_| |_|  |_|| .__/ |___/| .__/|_||_| \__|
+                  |_|         |_|              
+    
+    """
+    )
+
+
 def welcome_menu():
     """
     Print welcome message and ask to choose between create trip and see list.
@@ -40,12 +63,17 @@ def welcome_menu():
     """
     worksheets = SHEET.worksheets()
 
-    print("What would you like to do?")
+    welcome_art()
+    print("Effortlessly track trip expenses:\n")
+    print(" * Add, edit, or delete trips and their costs.")
+    print(" * Gain insights into individual expenditures.\n")
+    print("What would you like to do?\n")
     print(tabulate([[1, "Create new trip"], [2, "See existing trips"]]))
+    print("")
 
     while True:
         trips = [trip.title for trip in worksheets]
-        user_choice = input("Please, select your prefered option (1 or 2):\n")
+        user_choice = input("Please, enter your prefered option (1 or 2):\n")
         validated_choice = validate_user_choice(user_choice, range(1, 3))
         validated_choice_bool, validated_choice_num = validated_choice
         if validated_choice_bool:
@@ -78,10 +106,11 @@ def validate_user_choice(data, choices):
         choices_str_list = ", ".join(choices_str)
         if new_number not in choices:
             raise ValueError(
-                f"You selected {new_number}.\nSelect one of the following options: {choices_str_list}"
+                f"You entered {new_number}.\n"
+                f"Enter one of the following options: {choices_str_list}"
             )
     except ValueError as e:
-        print(f"Invalid choice: {e}")
+        print(f"\nInvalid choice: {e}\n")
         return (False, 0)
 
     return (True, new_number)
@@ -93,15 +122,14 @@ def create_new_trip(name):
     The worksheet is populated with the column headers.
     A loop asks the user to provide expenses, calling the appropiate function.
     """
-    SHEET.add_worksheet(title=name, rows=100, cols=20)
-    worksheet = SHEET.worksheet(name)
-    header = ["Date", "Name", "Concept", "Cost", "Currency", "Cost_chosen_currency", "Chosen_currency"]
-
     print("Please select your base currency.")
     print("All your expenses will be converted to this currency")
     print("and will be used to show the summary of your trip.\n")
-
     chosen_currency = get_currency(name)
+
+    SHEET.add_worksheet(title=name, rows=100, cols=20)
+    worksheet = SHEET.worksheet(name)
+    header = ["Date", "Name", "Concept", "Cost", "Currency", "Cost_chosen_currency", "Chosen_currency"]
     worksheet.append_row(header)
     worksheet.update("J1", [[chosen_currency]])
 
@@ -250,11 +278,11 @@ def get_currency(trip_name):
     }
     currencies_headers = ["Code", "Currency"]
 
-    print("Select one of the following code options (1 to 3)")
+    print("Select one of the following code options:")
     print(tabulate([(str(code), currency) for code, currency in currencies.items()], headers=currencies_headers, tablefmt="mixed_grid"))
 
     while True:
-        user_choice = input("Example: '1' or press 'C' to cancel:\n")
+        user_choice = input("Enter 1, 2, 3, or 'C' to cancel:\n")
         validated_choice = validate_user_choice(user_choice, range(1, 4))
         validated_choice_bool, validated_choice_num = validated_choice
         if user_choice.lower() == "c":
@@ -400,9 +428,10 @@ def load_trips():
         welcome_menu()
     else:
         clear_terminal()
-        print("These are the existing trips:")
+        print("These are the existing trips:\n")
         print(tabulate([(str(trip_num), trip) for trip_num, trip in trips.items()]))
-        print("You can choose the trip selecting its number:\n")
+        print("")
+        print("You can choose the trip entering its number:\n")
         print(options)
         print("Or 'C' to go back.\n")
         while True:
@@ -661,21 +690,6 @@ def main():
     """
     Run the programm.
     """
-    print("""
- __      __     _                           
- \ \    / /___ | | __  ___  _ __   ___      
-  \ \/\/ // -_)| |/ _|/ _ \| '  \ / -_)     
-   \_/\_/ \___||_|\__|\___/|_|_|_|\___|     
-                _                           
-               | |_  ___                    
-               |  _|/ _ \                   
-                \__|\___/                   
-  _____      _         ___        _  _  _   
- |_   _|_ _ (_) _ __  / __| _ __ | |(_)| |_ 
-   | | | '_|| || '_ \ \__ \| '_ \| || ||  _|
-   |_| |_|  |_|| .__/ |___/| .__/|_||_| \__|
-               |_|         |_|              
-    """)
     welcome_menu()
 
 
