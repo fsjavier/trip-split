@@ -422,7 +422,7 @@ def select_trip(trip_name):
     rows = data[1:]
     df = pd.DataFrame(rows, columns=header)
     os.system("clear")
-    print(f"You have ve selected the {trip_name} trip.")
+    print(f"You have selected the {trip_name} trip.")
     print("There is 1 entry.\n" if df.shape[0] == 1 else f"There are {df.shape[0]} entries.\n")
     print("What would you like to do?\n")
     print(tabulate([[1, "See summary"], [2, "Edit trip"], [3, "Delete trip"]])+"\n")
