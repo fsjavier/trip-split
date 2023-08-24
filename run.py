@@ -5,6 +5,8 @@ from tabulate import tabulate
 from datetime import datetime
 import time
 import pandas as pd
+import colorama
+from colorama import Fore
 
 # Every Google account has as an IAM (Identity and Access Management)
 # configuration which specifies what the user has access to.
@@ -21,6 +23,8 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open("trip_split")
 
+colorama.init(autoreset=True)  # Initialize colorama
+
 
 def clear_terminal():
     """
@@ -35,7 +39,7 @@ def welcome_art():
     """
     Print ASCII welcome message.
     """
-    print(
+    print(Fore.CYAN + 
     """
     __      __     _                           
     \ \    / /___ | | __  ___  _ __   ___      
@@ -84,7 +88,10 @@ def welcome_menu():
                     trip_name = input("Enter the name of the trip\n")
                     if trip_name in trips:
                         clear_terminal()
-                        print(f"The trip {trip_name} already exists")
+                        print(
+                            Fore.RED +
+                            f"The {trip_name} trip already exists.\n"
+                        )
                         print("Please select a different name.\n")
                     else:
                         print("Creating new trip...\n")
@@ -107,11 +114,10 @@ def validate_user_choice(data, choices):
         choices_str_list = ", ".join(choices_str)
         if new_number not in choices:
             raise ValueError(
-                f"You entered {new_number}.\n"
-                f"Enter one of the following options: {choices_str_list}"
+                f"You entered {new_number}."
             )
     except ValueError as e:
-        print(f"\nInvalid choice: {e}\n")
+        print(Fore.RED + f"\nInvalid choice: {e}\n")
         return (False, 0)
 
     return (True, new_number)
@@ -155,7 +161,7 @@ def create_new_trip(name):
                     f"You selected {add_expense}. Please select Y or N"
                 )
         except ValueError as e:
-            print(f"Invalid option: {e}")
+            print(Fore.RED + f"Invalid option: {e}")
         else:
             if add_expense.lower() == "n":
                 clear_terminal()
@@ -619,7 +625,7 @@ def edit_trip(trip_name, df):
             print("Enter A to add an entry")
             user_choice = input("Or enter C to go back:\n")
             if user_choice.lower() not in ["a", "c"]:
-                print("Invalid choice, please try again.")
+                print(Fore.RED + "Invalid choice, please try again.")
                 continue
             if user_choice.lower() == "c":
                 time.sleep(0.5)
@@ -638,7 +644,7 @@ def edit_trip(trip_name, df):
             user_choice = input("Or enter C to go back:\n")
             if user_choice.lower() not in ["e", "d", "a", "c"]:
                 print("")
-                print("Invalid choice, please try again.\n")
+                print(Fore.RED + "Invalid choice, please try again.\n")
                 continue
             if user_choice.lower() == "c":
                 time.sleep(0.5)
@@ -724,7 +730,11 @@ def delete_trip_entry(trip_name, entry_ind):
     print("You are going to delete the following expense:")
     print(tabulate(zip(header, values_list)))
     while True:
-        user_choice = input("Enter Y to confirm or N to discard changes:\n")
+        user_choice = input(
+            "Enter "
+            + Fore.RED + "Y"
+            + Fore.WHITE + " to delete or N to cancel:\n"
+        )
         if user_choice.lower() not in ["y", "n"]:
             print(f"{user_choice} is not a valid choice, please try again.")
         elif user_choice.lower() == "y":
@@ -792,10 +802,15 @@ def delete_trip(trip_name, df):
     worksheet = SHEET.worksheet(trip_name)
     show_trip_entries(trip_name, df)
     print(f"Are you sure you want to delete it?\n")
+    print("(This action is not reversible)")
     while True:
-        user_choice = input("Enter Y to delete or N to cancel:\n")
+        user_choice = input(
+            "Enter "
+            + Fore.RED + "Y"
+            + Fore.WHITE + " to delete or N to cancel:\n"
+        )
         if user_choice.lower() not in ["y", "n"]:
-            print("Invalid choice, please try again.\n")
+            print(Fore.RED + "Invalid choice, please try again.\n")
         elif user_choice.lower() == "n":
             select_trip(trip_name)
         elif user_choice.lower() == "y":
