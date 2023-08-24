@@ -183,7 +183,7 @@ def get_date(trip_name):
     while True:
         try:
             print("Enter date in the following format dd/mm/yyyy")
-            date = input("Example: 31/06/2023 or press 'C' to cancel:\n")
+            date = input("Example: 31/06/2023 or enter C to cancel:\n")
             if date.lower() == "c":
                 clear_terminal()
                 select_trip(trip_name)
@@ -192,7 +192,7 @@ def get_date(trip_name):
                 clear_terminal()
                 return date_obj.strftime("%d/%m/%Y")
         except ValueError:
-            print("The date entered is not valid, please try again")
+            print("The date entered is not valid, please try again.\n")
 
 
 def get_name(trip_name):
@@ -203,15 +203,15 @@ def get_name(trip_name):
     """
     while True:
         try:
-            print("Enter a name for the expense")
-            name = input("Example: 'John' or press 'C' to cancel:\n").title()
+            print("Enter the name of the person who paid.")
+            name = input("Example: John or enter C to cancel:\n").title()
             if name.lower() == "c":
                 clear_terminal()
                 select_trip(trip_name)
             clear_terminal()
             return name
         except ValueError:
-            print("The name entered is not valid, please try again")
+            print("The name entered is not valid, please try again.\n")
 
 
 def get_concept(trip_name):
@@ -230,11 +230,12 @@ def get_concept(trip_name):
     }
     concepts_headers = ["Code", "Concept"]
 
-    print("Select one of the following code options (1 to 6)")
+    print("Enter the code number for the concept that better describes the expense.\n")
     print(tabulate([(str(code), concept) for code, concept in concepts.items()], headers=concepts_headers, tablefmt="mixed_grid"))
+    print("")
 
     while True:
-        user_choice = input("Example: '1' or press 'C' to cancel:\n")
+        user_choice = input("Enter 1, 2, 3, 4, 5, 6 or C to cancel:\n")
         validated_choice = validate_user_choice(user_choice, range(1, 7))
         validated_choice_bool, validated_choice_num = validated_choice
         if user_choice.lower() == "c":
@@ -251,10 +252,10 @@ def get_cost(trip_name):
     Give the possibility to cancel the process.
     If the data entered is invalid ask again.
     """
-    print("Enter a cost for the expense")
     while True:
         try:
-            cost = input("Example: '19.95' or press 'C' to cancel:\n")
+            print("Enter the amount of the expense.")
+            cost = input("Example: 19.95 or press C to cancel:\n")
             if cost.lower() == "c":
                 clear_terminal()
                 select_trip(trip_name)
@@ -262,7 +263,7 @@ def get_cost(trip_name):
             clear_terminal()
             return cost_float
         except ValueError:
-            print("The cost entered is not valid, please try again")
+            print(f"{cost} is not valid input, please try again.\n")
 
 
 def get_currency(trip_name):
@@ -278,11 +279,12 @@ def get_currency(trip_name):
     }
     currencies_headers = ["Code", "Currency"]
 
-    print("Select one of the following code options:")
+    print("Select one of the following code options:\n")
     print(tabulate([(str(code), currency) for code, currency in currencies.items()], headers=currencies_headers, tablefmt="mixed_grid"))
 
     while True:
-        user_choice = input("Enter 1, 2, 3, or 'C' to cancel:\n")
+        print("")
+        user_choice = input("Enter 1, 2, 3, or C to cancel:\n")
         validated_choice = validate_user_choice(user_choice, range(1, 4))
         validated_choice_bool, validated_choice_num = validated_choice
         try:
@@ -361,8 +363,8 @@ def check_expense(update_worksheet ,trip_name, expense, row_edit):
         record_to_display = record[1:] # Index 0 is the trip name, which won't be added
         print(f"This is the record:\n")
         print(tabulate(record_to_display))
-        print("Press 'Y' if you want to confirm the expense")
-        print("Press 'C' if you want to cancel\n")
+        print("Press Y if you want to confirm the expense")
+        print("Press C if you want to cancel\n")
         print("If you want to make a change, enter the field you want to modify")
         field = input("Example: name\n")
         if field.lower() == "date":
@@ -437,10 +439,10 @@ def load_trips():
         print("These are the existing trips:\n")
         print(tabulate([(str(trip_num), trip) for trip_num, trip in trips.items()]))
         print("")
-        print("You can choose the trip entering its number:\n")
-        print(options)
-        print("Or 'C' to go back.\n")
         while True:
+            print("Enter the number of the trip you want to edit:")
+            print(options)
+            print("Or enter C to go back.\n")
             user_choice = input(f"Enter your selection:\n")
             if user_choice.lower() == "c":
                 clear_terminal()
@@ -471,9 +473,9 @@ def select_trip(trip_name):
     print("There is 1 entry.\n" if df.shape[0] == 1 else f"There are {df.shape[0]} entries.\n")
     print("What would you like to do?\n")
     print(tabulate([[1, "See summary"], [2, "Edit trip"], [3, "Delete trip"]])+"\n")
-    print("Please, select the number of your prefered option")
     while True:
-        user_choice = input("Or press 'C' to go back:\n")
+        print("Please, enter the number of your prefered option:")
+        user_choice = input("1, 2, 3 or enter C to go back:\n")
         validated_choice = validate_user_choice(user_choice, range(1, 4))
         validated_choice_bool, validated_choice_num = validated_choice
         if validated_choice_bool or user_choice.lower() == "c":
@@ -483,7 +485,7 @@ def select_trip(trip_name):
             elif validated_choice_num == 1:
                 see_trip_summary(trip_name, df)
                 print("")
-                input("Press any key to go back:\n")
+                input("Enter any key to go back:\n")
                 time.sleep(0.5)
                 select_trip(trip_name)
             elif validated_choice_num == 2:
@@ -529,8 +531,8 @@ def edit_trip(trip_name, df):
     show_trip_entries(trip_name, df)
     if df.shape[0] == 0:
         while True:
-            print("Press 'A' to add an entry")
-            user_choice = input("Or press 'C' to go back:\n")
+            print("Enter A to add an entry")
+            user_choice = input("Or enter C to go back:\n")
             if user_choice.lower() not in ["a", "c"]:
                 print("Invalid choice, please try again.")
                 continue
@@ -547,10 +549,11 @@ def edit_trip(trip_name, df):
                 select_trip(trip_name)
     else:
         while True:
-            print("Press 'E' to edit, 'D' to delete, or 'A' to add an entry")
-            user_choice = input("Select one of the above or 'C' to go back:\n")
+            print("Enter E to edit, D to delete, or A to add an entry.")
+            user_choice = input("Or enter C to go back:\n")
             if user_choice.lower() not in ["e", "d", "a", "c"]:
-                print("Invalid choice, please try again.")
+                print("")
+                print("Invalid choice, please try again.\n")
                 continue
             if user_choice.lower() == "c":
                 time.sleep(0.5)
@@ -574,10 +577,10 @@ def edit_delete_entry(options_array, options_array_str, trip_name, edit_delete_t
     Takes in the parameters necessary to either edit or delete an entry.
     Validates the user choice and calls the appropiate function.
     """
-    print(f"Select the number of the entry you want to {option_chosen}:")
-    print(options_array_str)
     while True:
-        user_choice_edit_entry = input("Example: '2':\n")
+        print(f"Select the number of the entry you want to {option_chosen}:")
+        print(options_array_str)
+        user_choice_edit_entry = input("Enter one of the above options:\n")
         validated_choice = validate_user_choice(user_choice_edit_entry, options_array)
         validated_choice_bool, validated_choice_num = validated_choice
         if validated_choice_bool:
@@ -611,10 +614,10 @@ def delete_trip_entry(trip_name, entry_ind):
     header = ["Date", "Name", "Concept", "Cost", "Currency"]
     print("You are going to delete the following expense:")
     print(tabulate(zip(header, values_list)))
-    user_choice = input("Press Y to confirm or N to discard the changes:\n")
     while True:
+        user_choice = input("Enter Y to confirm or N to discard the changes:\n")
         if user_choice.lower() not in ["y", "n"]:
-            print("That's not a valid choice, please try again.")
+            print(f"{user_choice} is not a valid choice, please try again.")
         elif user_choice.lower() == "y":
             worksheet.delete_rows(row_delete)
             print("Entry successfully deleted.")
@@ -623,10 +626,6 @@ def delete_trip_entry(trip_name, entry_ind):
             select_trip(trip_name)
         elif user_choice.lower() == "n":
             select_trip(trip_name)
-        else:
-            # Replace for ValueError
-            print("Something went wrong")
-            welcome_menu()
 
 
 def edit_trip_entry(trip_name, entry_ind):
@@ -679,7 +678,7 @@ def delete_trip(trip_name, df):
     show_trip_entries(trip_name, df)
     print(f"Are you sure you want to delete it?\n")
     while True:
-        user_choice = input("Press 'Y' to delete or 'N' to cancel:\n")
+        user_choice = input("Enter Y to delete or N to cancel:\n")
         if user_choice.lower() not in ["y", "n"]:
             print("Invalid choice, please try again")
         elif user_choice.lower() == "n":
