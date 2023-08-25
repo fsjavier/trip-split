@@ -564,7 +564,7 @@ def see_trip_summary(trip_name, df):
         print("There are no entries for this trip\n")
 
     else:
-        chosen_curr = df["Chosen_currency"][1]
+        chosen_curr = df["Chosen_currency"][0]
         nr_of_persons = df["Name"].value_counts().shape[0]
         df["Cost_chosen_currency"] = (
             df["Cost_chosen_currency"].str.replace(",", ".").astype(float)
