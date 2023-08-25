@@ -201,7 +201,7 @@ def get_date(trip_name):
     while True:
         try:
             print("Enter date in the following format dd/mm/yyyy")
-            date = input("Example: 31/06/2023 or enter C to cancel:\n")
+            date = input("Example: 30/06/2023 or enter C to cancel:\n")
             if date.lower() == "c":
                 clear_terminal()
                 select_trip(trip_name)
