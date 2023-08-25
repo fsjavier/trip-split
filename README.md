@@ -245,3 +245,30 @@ It displays a summary of the trip. From here, the user can only go back to the t
         - The chosen base currency.
         - The total cost of the trip in the chosen currency.
         - A table with how much each person has spent, how much each person should have paid (total cost / nr. of people) and how much each person should pay (negative numbers) or receive (positive numbers)
+
+### Additional features
+
+#### Data storage
+
+The programm uses a Google Spreadsheet to save and fetch trips data. The spreadsheet can be accessed [here](https://docs.google.com/spreadsheets/d/1bzdwem6NsTVaEm1tRZfcupDeK-qbkPKys-CPtTWXnxc/edit#gid=1855189207).
+
+In order to convert the trip currencies to the base currencies chosen by the users, static currency exchanges have been added to the first worksheet.
+<details><summary>Currency exchange</summary>
+<img src="documentation/readme_images/currency-exchange.png">
+</details>
+
+#### Data model
+
+I've used an Expense class to create the expenses. I first doubted between a dictionary and a class, as I needed a data structure that would allow me to access a value based on a key. The reason I finally decided to use a class is that it would allow me to implement methods to convert the trip currencies to the base currency.
+
+#### Input validation
+
+For each decision users have to make, where input is needed, a validation system has been implemented to make sure users always choose only one of the valid options. For more details see the [Testing](#testing) section.
+
+### Future features
+
+* Users should only be able to see their trips. At the moment only one spreadsheet exists where all trips are stored.
+* Add more currencies and a system to dynamically update exchange rates.
+* At the moment once the trip currency is set it can't be edited. Add function for users to be able to edit it.
+* Add more options to the "See summary" menu. For instance see cost by concept and display charts.
+
