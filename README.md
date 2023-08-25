@@ -296,3 +296,28 @@ For each decision users have to make, where input is needed, a validation system
 * `Lucidchart` was used to create the flow charts.
 * `Heroku` was used to deploy the project.
 * `Patorjk` was used to create the ASCII Art for the welcome message.
+
+
+## Testing
+
+### Python Linter
+
+### Manual Testing
+
+#### Bugs
+
+| Bug | Solution |
+|-----|----------|
+| Creating a new trip with the same name as an existing trip caused an error. | Create a new condition that checks if the trip name (worksheet name) already exists. |
+| After loading list of existing trips, entering 'C' wasn't accepted as valid input. | Add lower() method to the user's input. |
+| Trying to do arithmetic operation with data from spreadsheet caused an error. | Add the replace() method to change ',' with '.' and convert the result to float. |
+| Trying to see the summary of an empty trip caused an error. | Check first if the trip is empty before performing operations. If it's empty only display a message. |
+| After deleting a trip, the deleted trip was still being displayed if the user chose to see existing trips right after deleting it, causing an error. | The worksheets were being loaded in the global scope, so they weren't update unless the user restarted the application. I moved the variable to the local scope of the functions that needed access to it. | 
+| An empty trip (without header) could be created if the user aborted the trip creation process after entering the name of the trip and cancelled before selecting the base currency. This would result in errors when trying to select the trip later on. | Move the worksheet creation method call until after the user has provided all necessary information. And add exception handling to the get_currency function if the user canceled before entering the currency (because otherwise the load_trip function would try to load a non existing trip). |
+| Trying to see the summary of a trip with only 1 entry caused an error. | I made a mistake and was assigning to the `chosen_curr` varibale the index 1 instead of 0 of the dataframe. |
+
+
+## Deployment
+
+
+## Credits
