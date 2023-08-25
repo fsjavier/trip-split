@@ -85,5 +85,27 @@ The application has been designed with the goal of having the users making one d
 <img src="documentation/readme_images/see-existing-trips.png">
 </details>
 
+#### Trip menu
+* The number of entries the trip contain are displayed.
+* The user has the possibility to:
+    * See the trip summary.
+    * Edit the trip.
+    * Delete the trip.
+    * Go back to see the list of trips.
+<details><summary>Trip menu - Without entries</summary>
+<img src="documentation/readme_images/trip-menu-no-entries.png">
+</details>
+<details><summary>Trip menu - With entries</summary>
+<img src="documentation/readme_images/trip-menu-with-entries.png">
+</details>
+
+#### Trip summary
+It displays a summary of the trip. From here, the user can only go back to the trip menu.
+<details><summary>Trip summary - Without entries</summary>
+<img src="documentation/readme_images/trip-summary-no-entries.png">
+</details>
+<details><summary>Trip summary - With entries</summary>
+<img src="documentation/readme_images/trip-summary-with-entries.png">
+</details>
 
 ## Features
