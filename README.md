@@ -27,13 +27,13 @@ It enables users to seamlessly add, edit, or remove trips and their costs. Addit
 * It has to provide relevant feedback to the user when there is not enough information or a invalid data is provided.
 * It has to calculate the total cost of the trip and how much each person has spent.
 
-### User Goals
+### User Stories
 
 * As a user, I want to:
   1. Create a new trip to track expenses.
   2. Be able to have several people adding their expenses to the trip.
   3. Have a currency conversion system to my preferred currency.
-  4. See the existing entries of a trip.
+  4. See the list of existing trips.
   5. Edit an entry if there was a mistake.
   6. Delete an entry if it was a mistake.
   7. Delete a trip if it was a mistake or is not any more needed.
@@ -108,4 +108,116 @@ It displays a summary of the trip. From here, the user can only go back to the t
 <img src="documentation/readme_images/trip-summary-with-entries.png">
 </details>
 
+#### Edit trip
+* It lists all trip entries.
+* It gives the possibility to add, edit or delete trip entries. The user can also go back to the trip menu.
+<details><summary>Trip summary - Without entries</summary>
+<img src="documentation/readme_images/edit-trip-no-entries.png">
+</details>
+<details><summary>Trip summary - With entries</summary>
+<img src="documentation/readme_images/edit-trip-with-entries.png">
+</details>
+
+#### Delete trip
+* It lists all trip entries.
+* Asks for confirmation to delete the trip. The user can either confirm the deletion or go back to the trip menu
+<details><summary>Trip summary - Without entries</summary>
+<img src="documentation/readme_images/delete-trip-no-entries.png">
+</details>
+<details><summary>Trip summary - With entries</summary>
+<img src="documentation/readme_images/delete-trip-with-entries.png">
+</details>
+
+
 ## Features
+
+### User stories fullfillment
+
+1 Create a new trip to track expenses.
+
+    Steps:
+    1. Start the programm or navigate back to the welcome menu.
+    2. Enter '1' to create a new trip.
+    3. Follow the instructions in the next steps:
+        - Add a trip name.
+        - Choose a currency.
+
+2 Be able to have several people adding their expenses to the trip.
+
+    Steps - Option 1:
+    1. After finishing creating a trip, the user will be asked if they want to add an expense. Enter 'Y'
+    2. Follow the instructions in each step to create the expense, part of the information to provide is the name of the person adding the expense.
+        - Add a date.
+        - Add the name of the person.
+        - Add the concept.
+        - Add the cost.
+        - Add the currency.
+
+    Steps - Option 2:
+    1. In the welcome menu enter '2' to see the list of existing trips.
+    2. Choose the trip for which the expense will be added.
+    3. Select 'Edit trip'.
+    4. Enter 'A' to add an entry and follow the same steps describe in Option 1.
+
+3 Have a currency conversion system to my preferred currency.
+
+    Steps:
+    1. When creating a new trip the user must choose the base currency to which all expenses will be converted to.
+    2. When adding a new expense the user must choose the currency they used to pay.
+    3. After selecting a trip (Welcome menu > See existing trips > Select trip), enter '1' to see the summary of the trip. The trip cost and cost per person displayed are converted to the currency chosen by the user when the trip was created.
+
+4 See the existing entries of a trip.
+
+    Steps
+    1. In the welcome menu, enter '2' to see the list of existing trips.
+    2. Enter the number of one of the existing trips.
+    3. Select the 'Edit trip' option:
+        - If there are no entries, there will be a message saying that the trip is empty.
+        - If there are entries, they will be displayed.
+
+5 Edit an entry if there was a mistake.
+
+    Steps - Option 1, While creating the expense:
+    1. Follow the steps as described in the User Story 2, entering 'E' instead of 'A'.
+    2. Once information for all fields has been provided, a summary of the expense will be displayed.
+    3. The user will have the option to edit any of the fields before it is saved:
+        - In order to do that, the user must enter the name of the field they want to edit.
+        - Then again the summary will be displayed and the user will continue to have the possibility to edit any field.
+    4. When all fields have the correct information, the user can save it.
+
+    Steps - Option 2, When the expense already exists:
+    1. Follow the steps described in the User Story 4.
+    2. Enter 'E'.
+    3. Enter the number of the expense to be edited.
+    4. The summary of the expense is displayed and it can then be edited in the same way as described in Option 1.
+
+6 Delete an entry if it was a mistake
+
+    Steps:
+    1. In the welcome menu enter '2' to see the list of existing trips.
+    2. Choose the trip for which the expense will be deleted.
+    3. Select 'Edit trip'.
+    4. Enter 'D' to delete an entry.
+    5. Enter the number of the entry that will be deleted.
+    6. Enter 'Y' to confirm.
+
+7 Delete a trip if it was a mistake or is not any more needed.
+
+    Steps:
+    1. In the welcome menu enter '2' to see the list of existing trips.
+    2. Choose the trip that will be deleted.
+    3. Select 'Delete trip'.
+    4. Enter 'D' to delete an entry.
+    6. Enter 'Y' to confirm.
+
+8 See how much each person has spent.
+
+    Steps:
+    1. In the welcome menu enter '2' to see the list of existing trips.
+    2. Choose the relevant trip.
+    3. Select 'See summary".
+    4. The following information will be displayed:
+        - The name of the trip.
+        - The chosen base currency.
+        - The total cost of the trip in the chosen currency.
+        - A table with how much each person has spent, how much each person should have paid (total cost / nr. of people) and how much each person should pay (negative numbers) or receive (positive numbers)
