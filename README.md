@@ -232,7 +232,7 @@ It displays a summary of the trip. From here, the user can only go back to the t
     2. Choose the trip that will be deleted.
     3. Select 'Delete trip'.
     4. Enter 'D' to delete an entry.
-    6. Enter 'Y' to confirm.
+    5. Enter 'Y' to confirm.
 
 8 See how much each person has spent.
 
@@ -272,3 +272,27 @@ For each decision users have to make, where input is needed, a validation system
 * At the moment once the trip currency is set it can't be edited. Add function for users to be able to edit it.
 * Add more options to the "See summary" menu. For instance see cost by concept and display charts.
 
+
+## Technologies Used
+
+### Languages
+
+* Python
+
+### Python libraries and modules
+
+* `gspread` was used for access and manipulation of Google Spreadsheets.
+* `google.oauth2.service_account` was used to handle credentials between the application and Google Sheets.
+* `os` was used to clear the terminal.
+* `datetime` was used to make sure users enter valid dates.
+* `time` was used to delay certain actions, as a way to give users a bit more time to better understand what happens.
+* `pandas` was used to create dataframes with the data in the spreadsheet. It makes easier to summarize data and do arithmetic operation.
+* `colorama` was used to give users visual feedback using colors. 
+
+### Other framewoks and tools
+* `CodeAnywhere` was the IDE used to develop the application.
+* `GitHub` is used to host the code.
+* `Git` was userd for version control.
+* `Lucidchart` was used to create the flow charts.
+* `Heroku` was used to deploy the project.
+* `Patorjk` was used to create the ASCII Art for the welcome message.
