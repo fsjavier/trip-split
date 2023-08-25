@@ -111,10 +111,10 @@ It displays a summary of the trip. From here, the user can only go back to the t
 #### Edit trip
 * It lists all trip entries.
 * It gives the possibility to add, edit or delete trip entries. The user can also go back to the trip menu.
-<details><summary>Trip summary - Without entries</summary>
+<details><summary>Edit trip - Without entries</summary>
 <img src="documentation/readme_images/edit-trip-no-entries.png">
 </details>
-<details><summary>Trip summary - With entries</summary>
+<details><summary>Trip trip - With entries</summary>
 <img src="documentation/readme_images/edit-trip-with-entries.png">
 </details>
 
@@ -159,6 +159,22 @@ It displays a summary of the trip. From here, the user can only go back to the t
     3. Select 'Edit trip'.
     4. Enter 'A' to add an entry and follow the same steps describe in Option 1.
 
+<details><summary>Add expense - Date</summary>
+<img src="documentation/readme_images/add-expense-date.png">
+</details>
+<details><summary>Add expense - Name</summary>
+<img src="documentation/readme_images/add-expense-name.png">
+</details>
+<details><summary>Add expense - Concept</summary>
+<img src="documentation/readme_images/add-expense-concept.png">
+</details>
+<details><summary>Add expense - Cost</summary>
+<img src="documentation/readme_images/add-expense-cost.png">
+</details>
+<details><summary>Add expense - Currency</summary>
+<img src="documentation/readme_images/add-expense-currency.png">
+</details>
+
 3 Have a currency conversion system to my preferred currency.
 
     Steps:
@@ -191,6 +207,10 @@ It displays a summary of the trip. From here, the user can only go back to the t
     3. Enter the number of the expense to be edited.
     4. The summary of the expense is displayed and it can then be edited in the same way as described in Option 1.
 
+<details><summary>Edit expense</summary>
+<img src="documentation/readme_images/edit-expense.png">
+</details>
+
 6 Delete an entry if it was a mistake
 
     Steps:
@@ -200,6 +220,10 @@ It displays a summary of the trip. From here, the user can only go back to the t
     4. Enter 'D' to delete an entry.
     5. Enter the number of the entry that will be deleted.
     6. Enter 'Y' to confirm.
+
+<details><summary>Delete expense</summary>
+<img src="documentation/readme_images/edit-expense.png">
+</details>
 
 7 Delete a trip if it was a mistake or is not any more needed.
 
