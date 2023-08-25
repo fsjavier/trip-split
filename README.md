@@ -21,7 +21,7 @@ It enables users to seamlessly add, edit, or remove trips and their costs. Addit
 
 ## Goals
 
-* Provide application to track expenses, escpecially for groups.
+* Provide an application to track expenses, escpecially for groups.
 * It should be intuitive, providing enough information on each step.
 * Should give the option, whenever is possible, to option move back to a previous step.
 * Should give the option to make changes if a mistake is made.
@@ -39,3 +39,6 @@ It enables users to seamlessly add, edit, or remove trips and their costs. Addit
   6. Delete an entry if it was a mistake.
   7. Delete a trip if it was a mistake or is not any more needed.
   8. See how much each person has spent.
+
+
+## Features
