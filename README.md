@@ -330,6 +330,20 @@ Eventually, all the code passed validation without any issues.
 | User enters 2, when there are saved trips. | Trip creating process starts, where user is asked to enter the name of the trip. | Works as expected. |
 | User enters 2, but there are currently no saved trips. | The message "There are currently no trips" is displayed and the user is taken back to the Welcome menu. | Works as expected. |
 
+*Create new trip menu*
+
+| Situation | Expected Outcome | Outcome |
+|-----------|------------------|---------|
+| User enters a name for a trip that already exists. | The message "The {trip_name} tip already exists. Please select a different name." is displayed. | Works as expected. |
+| User enters a name but then enters "C" (or "c") in the select currency menu. | The message "The trip creation process has been aborted" is displayed and the user is taken back to the Welcome menu, without creating the trip. | Works as expected. |
+| User enters a name but in the select currency menu selects a number different than 1, 2, or 3. | Get the message "Invalid choice: You entered {user_input}".<br> Then the user is prompted to enter one of the options again. | Works as expected. |
+| User enters a name but in the select currency menu selects something different than a number or "C". | Get the message "Invalid choice: invalid literal for int() with base 10: {user_input}"<br> Then the user is prompted to enter one of the options again. | Works as expected. |
+| User enters a name a selects a valid currency. | The trip is created and a new worksheet with the trip name as title is created.<br>Then the user is asked if they want to add an expense. | Works as expected.
+| Users are asked if they want to create an expense right after creating a trip, and answer anything other than "Y" (or "y") or "N" (or "n"). | It clears the terminal and asks again. | Works as expected. |
+| Users are asked if they want to create an expense right after creating a trip, and answer "N" (or "n"). | It clears the terminal and loads the trip menu. | Works as expected. |
+| Users are asked if they want to create an expense right after creating a trip, and answer "Y" (or "y"). | It clears the terminal start the expense creation process. | Works as expected. |
+
+
 #### Bugs
 
 | Bug | Fix |
