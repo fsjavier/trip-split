@@ -424,5 +424,17 @@ A user can end up in this flow if they decide to create an expense right after c
 
 ## Deployment
 
+The project has been deployed using Heroku, following the below steps:
+* Go to Heroku, once you have an account, click "Create new app".
+* Choose an app name and a region and click "Create app".
+* Go to "Settings" and click "Reveal Config Vars", adding two key-value pairs:
+    * Key: Port, Value: 8000
+    * Key: CREDS, Value: (credential from creds.json file)
+* Then click "Add buildpack" and add "python" and "nodejs" (in this order).
+* Finally, go back to the "Deploy" menu and there:
+    * Select GitHub as "Deployment Method" and connect to the repository.
+    * Go to "Manual Deploy", choose "main" and click "Deploy Branch".
+* The application will now be deployey.
+
 
 ## Credits
