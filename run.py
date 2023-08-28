@@ -6,6 +6,7 @@ from datetime import datetime
 import time
 import pandas as pd
 import colorama
+import pyfiglet
 from colorama import Fore
 
 # Every Google account has as an IAM (Identity and Access Management)
@@ -35,30 +36,6 @@ def clear_terminal():
     os.system("cls" if os.name == "nt" else "clear")
 
 
-def welcome_art():
-    """
-    Print ASCII welcome message.
-    """
-    print(Fore.CYAN + 
-    """
-    __      __     _                           
-    \ \    / /___ | | __  ___  _ __   ___      
-     \ \/\/ // -_)| |/ _|/ _ \| '  \ / -_)     
-      \_/\_/ \___||_|\__|\___/|_|_|_|\___|     
-                    _                           
-                   | |_  ___                    
-                   |  _|/ _ \                   
-                    \__|\___/                   
-     _____      _         ___        _  _  _   
-    |_   _|_ _ (_) _ __  / __| _ __ | |(_)| |_ 
-      | | | '_|| || '_ \ \__ \| '_ \| || ||  _|
-      |_| |_|  |_|| .__/ |___/| .__/|_||_| \__|
-                  |_|         |_|              
-    
-    """
-    )
-
-
 def welcome_menu():
     """
     Print welcome message and ask to choose between create trip and see list.
@@ -68,7 +45,11 @@ def welcome_menu():
     """
     worksheets = SHEET.worksheets()
 
-    welcome_art()
+    # welcome_art()
+    welcome_message = pyfiglet.figlet_format(
+        "Welcome\n             to\nTrip Split"
+        )
+    print(welcome_message)
     print("Effortlessly track trip expenses:\n")
     print(" * Add, edit, or delete trips and their costs.")
     print(" * Gain insights into individual expenditures.\n")
