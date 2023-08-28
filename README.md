@@ -47,13 +47,13 @@ The application has been designed with the goal of having the users making one d
 ### Flowcharts
 
 <details><summary>Welcome</summary>
-<img src="documentation/flowcharts/welcome.png">
+<img src="documentation/flowcharts/flowchart-welcome.png">
 </details>
 <details><summary>Create trip path</summary>
-<img src="documentation/flowcharts/create-trip.png">
+<img src="documentation/flowcharts/flowchart-create-trip.png">
 </details>
 <details><summary>See trips path</summary>
-<img src="documentation/flowcharts/see-trips.png">
+<img src="documentation/flowcharts/flowchart-see-trips.png">
 </details>
 
 ### Structure
@@ -310,6 +310,13 @@ For each decision users have to make, where input is needed, a validation system
 ## Testing
 
 ### Python Linter
+
+I ran all Python code through [CI Python Linter](https://pep8ci.herokuapp.com/). During development, most warnings were caused by excessively long lines, prompting me to modify them. Additionally, I received warnings due to the style I used for the ASCII welcome message, what led me to replace for the one created with the `pyfiglet` module.
+Eventually, all the code passed validation without any issues.
+<details><summary>CI Python Linter</summary>
+<img src="documentation/tests/python-linter.png">
+</details>
+
 
 ### Manual Testing
 
