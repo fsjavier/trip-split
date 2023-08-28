@@ -320,7 +320,7 @@ Eventually, all the code passed validation without any issues.
 
 ### Manual Testing
 
-*Welcome menu*
+#### Welcome menu
 
 | Situation | Expected Outcome | Outcome |
 |-----------|------------------|---------|
@@ -330,7 +330,7 @@ Eventually, all the code passed validation without any issues.
 | User enters 2, when there are saved trips. | Trip creating process starts, where user is asked to enter the name of the trip. | Works as expected. |
 | User enters 2, but there are currently no saved trips. | The message "There are currently no trips" is displayed and the user is taken back to the Welcome menu. | Works as expected. |
 
-*Create new trip menu*
+#### Create new trip menu
 
 | Situation | Expected Outcome | Outcome |
 |-----------|------------------|---------|
@@ -342,6 +342,40 @@ Eventually, all the code passed validation without any issues.
 | Users are asked if they want to create an expense right after creating a trip, and answer anything other than "Y" (or "y") or "N" (or "n"). | It clears the terminal and asks again. | Works as expected. |
 | Users are asked if they want to create an expense right after creating a trip, and answer "N" (or "n"). | It clears the terminal and loads the trip menu. | Works as expected. |
 | Users are asked if they want to create an expense right after creating a trip, and answer "Y" (or "y"). | It clears the terminal start the expense creation process. | Works as expected. |
+
+#### Add expense flow
+
+A user can end up in this flow if they decide to create an expense right after creating a trip or when the want to add an expense to an exisiting trip. It will also partially apply when the user wants to edit a existing entry.
+
+| Situation | Expected Outcome | Outcome |
+|-----------|------------------|---------|
+| *Date* |
+| User is requested to enter a date in dd/mm/yyyy format or C to cancel and enters in a different format. | The message "The date entered is not valid, please try again." will be displayed and the user will be asked again. | Works as expected. |
+| User is requested to enter a date in dd/mm/yyyy format or C to cancel and enters a non existing date (ie 30/02/2023). | The message "The date entered is not valid, please try again." will be displayed and the user will be asked again. | Works as expected. |
+| User is requested to enter a date in dd/mm/yyyy format or C to cancel and enters C. | The user is taken to the trip menu. | Works as expected. |
+| User is requested to enter a date in dd/mm/yyyy format or C to cancel and enters a valid date. | The user will move on to the screen, asking for the name. | Works as expected. |
+| *Name* |
+| User is requested to enter the name of the person paying and enters a name. | The user will move on to the screen, asking for the concept of the expense. | Works as expected. |
+| *Concept* |
+| User is requested to enter the number of the concept (1, 2, 3, 4, 5, 6) or "C" (or "c") to cancel. The user enters a different number. | Get the message "Invalid choice: You entered {user_input}".<br> Then the user is prompted to enter one of the options again. | Works as expected. |
+| User is requested to enter the number of the concept (1, 2, 3, 4, 5, 6) or "C" (or "c") to cancel. The user enters something different than a number or C. | Get the message "Invalid choice: invalid literal for int() with base 10: {user_input}"<br> Then the user is prompted to enter one of the options again. | Works as expected. |
+| User is requested to enter the number of the concept (1, 2, 3, 4, 5, 6) or "C" (or "c") to cancel. User enters C. | The user is taken to the trip menu. | Works as expected. |
+| User is requested to enter the number of the concept (1, 2, 3, 4, 5, 6) or "C" (or "c") to cancel. User enters a number in the range. | The user moves on to the cost. | Works as expected. |
+| *Cost* |
+| User is requested to enter the cost in the following format: 19.95 or "C" (or "c") to cancel. The user enters something different than number. | Get the message "{user_input} is not valid input, please try again.".<br> Then the user is prompted to enter the cost again. | Works as expected. |
+| User is requested to enter the cost in the following format: 19.95 or "C" (or "c") to cancel. The user enters a decimal with "," instead of ".". | Get the message "{user_input} is not valid input, please try again.".<br> Then the user is prompted to enter the cost again. | Works as expected. |
+| User is requested to enter the cost in the following format: 19.95 or "C" (or "c") to cancel. User enters C. | The user is taken to the trip menu. | Works as expected. |
+| User is requested to enter the cost in the following format: 19.95 or "C" (or "c") to cancel. User enters a valid number. | The user moves on to the currency. | Works as expected. |
+| *Currency* |
+| User is requested to enter the number of the currency (1, 2, 3) or "C" (or "c") to cancel. The user enters a different number. | Get the message "Invalid choice: You entered {user_input}".<br> Then the user is prompted to enter one of the options again. | Works as expected. |
+| User is requested to enter the number of the currency (1, 2, 3) or "C" (or "c") to cancel. The user enters something different than a number or C. | Get the message "Invalid choice: invalid literal for int() with base 10: {user_input}"<br> Then the user is prompted to enter one of the options again. | Works as expected. |
+| User is requested to enter the number of the currency (1, 2, 3) or "C" (or "c") to cancel. User enters C. | The user is taken to the trip menu. | Works as expected. |
+| User is requested to enter the number of the currency (1, 2, 3) or "C" (or "c") to cancel. User enters a number in the range. | The summary of the data is displayed. | Works as expected. |
+| *Record summary* |
+| When the summary is displayed, the user enters something different than the allowed options (name of the field to edit, "Y" or "C"). | The message "The value entered is not valid. Please try again." is displayed and the user is presented again with the same information. | Works as expected. |
+| When the summary is displayed, the user enters the name of one of the fields. | The process for adding a field starts, as described above, and then the summary is displayed again. | Works as expected. |
+| When the summary is displayed, the user enters C. | The process is cancelled and the user is taken to the trip menu. | Works as expected. |
+| When the summary is displayed, the user enters Y. | The message "Expense added successfully!" is displayed and the row is added to the worksheet.<br>The the user is asked if they want to add another expense. | Works as expected. |
 
 
 #### Bugs
