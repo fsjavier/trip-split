@@ -287,7 +287,8 @@ For each decision users have to make, where input is needed, a validation system
 * `datetime` was used to make sure users enter valid dates.
 * `time` was used to delay certain actions, as a way to give users a bit more time to better understand what happens.
 * `pandas` was used to create dataframes with the data in the spreadsheet. It makes easier to summarize data and do arithmetic operation.
-* `colorama` was used to give users visual feedback using colors. 
+* `colorama` was used to give users visual feedback using colors.
+* `pyfiglet` was used to create the ASCII Art for the welcome message.
 
 ### Other framewoks and tools
 * `CodeAnywhere` was the IDE used to develop the application.
@@ -295,7 +296,6 @@ For each decision users have to make, where input is needed, a validation system
 * `Git` was userd for version control.
 * `Lucidchart` was used to create the flow charts.
 * `Heroku` was used to deploy the project.
-* `Patorjk` was used to create the ASCII Art for the welcome message.
 
 
 ## Testing
