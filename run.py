@@ -27,7 +27,8 @@ SHEET = GSPREAD_CLIENT.open("trip_split")
 
 colorama.init(autoreset=True)  # Initialize colorama
 
-warnings.simplefilter("ignore") # Avoid printing deprecation message
+warnings.simplefilter("ignore")  # Avoid printing deprecation message
+
 
 def clear_terminal():
     """
