@@ -46,7 +46,15 @@ The application has been designed with the goal of having the users making one d
 
 ### Flowcharts
 
-
+<details><summary>Welcome</summary>
+<img src="documentation/flowcharts/welcome.png">
+</details>
+<details><summary>Create trip path</summary>
+<img src="documentation/flowcharts/create-trip.png">
+</details>
+<details><summary>See trips path</summary>
+<img src="documentation/flowcharts/see-trips.png">
+</details>
 
 ### Structure
 
