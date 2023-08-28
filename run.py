@@ -465,6 +465,7 @@ def load_trips():
     selected_trip = ""
     if not trips:
         print("There are currently no trips\n")
+        time.sleep(1.5)
         welcome_menu()
     else:
         clear_terminal()
