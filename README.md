@@ -438,3 +438,16 @@ The project has been deployed using Heroku, following the below steps:
 
 
 ## Credits
+
+* How to create tables using the tabulate module - [AskPython Guide](https://www.askpython.com/python-modules/tabulate-tables-in-python)
+* How to use tabulate with dictionaries - [Tutorial by EyeHunts](https://tutorial.eyehunts.com/python/python-tabulate-dictionary-example-code/)
+* How to work with dates with the datetime module - [Datacamp tutorial](https://www.datacamp.com/tutorial/converting-strings-datetime-objects)
+* How to use time.sleep() - [GeeksforGeeks](https://www.geeksforgeeks.org/sleep-in-python/)
+* Iterate over an Object's attributes - [bobbyhadz.com](https://bobbyhadz.com/blog/python-iterate-over-object-attributes)
+* How to use enumerate function - [W3Schools](https://www.w3schools.com/python/ref_func_enumerate.asp)
+* Working with pandas dataframes - [Pandas](https://pandas.pydata.org/docs/user_guide/10min.html)
+* How to use the string replace method - [W3Schools](https://www.w3schools.com/python/ref_string_replace.asp)
+* [gspread API reference](https://docs.gspread.org/en/v5.10.0/index.html)
+* How to use the colorama module - [linuxhint](https://linuxhint.com/colorama-python/)
+* How to use thr pyfiglet module - [GeeksforGeeks](https://www.geeksforgeeks.org/python-ascii-art-using-pyfiglet-module/)
+* How to use the warnings module - [Python docs](https://docs.python.org/3/library/warnings.html)
