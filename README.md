@@ -320,6 +320,16 @@ Eventually, all the code passed validation without any issues.
 
 ### Manual Testing
 
+*Welcome menu*
+
+| Situation | Expected Outcome | Outcome |
+|-----------|------------------|---------|
+| User enters a number other than 1 or 2. | Get the message "Invalid choice: You entered {user_input}".<br> Then the user is prompted to enter one of the options again. | Works as expected. |
+| User enters something different than a number. | Get the message "Invalid choice: invalid literal for int() with base 10: {user_input}"<br> Then the user is prompted to enter one of the options again. | Works as expected. |
+| User enters 1. | Trip creating process starts, where user is asked to enter the name of the trip. | Works as expected. |
+| User enters 2, when there are saved trips. | Trip creating process starts, where user is asked to enter the name of the trip. | Works as expected. |
+| User enters 2, but there are currently no saved trips. | The message "There are currently no trips" is displayed and the user is taken back to the Welcome menu. | Works as expected. |
+
 #### Bugs
 
 | Bug | Fix |
