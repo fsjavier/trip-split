@@ -8,6 +8,7 @@ import pandas as pd
 import colorama
 import pyfiglet
 from colorama import Fore
+import warnings
 
 # Every Google account has as an IAM (Identity and Access Management)
 # configuration which specifies what the user has access to.
@@ -26,6 +27,7 @@ SHEET = GSPREAD_CLIENT.open("trip_split")
 
 colorama.init(autoreset=True)  # Initialize colorama
 
+warnings.simplefilter("ignore") # Avoid printing deprecation message
 
 def clear_terminal():
     """
@@ -356,6 +358,7 @@ class Expense:
         currency_other = worksheet_trip.acell('J1').value
         matching_row = 0
 
+        # Loop to find the row where base currency and currency other match
         for row in currencies_list:
             if row[0] == currency_base and row[2] == currency_other:
                 matching_row = row
@@ -440,7 +443,6 @@ def write_new_expense(worksheet, expense, row_edit):
 
     expense_arr_write.append(cost_chosen_currency)
     expense_arr_write.append(chosen_currency)
-
     worksheet.append_row(
         expense_arr_write,
         table_range="A:G"

@@ -289,6 +289,7 @@ For each decision users have to make, where input is needed, a validation system
 * `pandas` was used to create dataframes with the data in the spreadsheet. It makes easier to summarize data and do arithmetic operation.
 * `colorama` was used to give users visual feedback using colors.
 * `pyfiglet` was used to create the ASCII Art for the welcome message.
+* `warnings` was used to avoid deprecation warning messages in the terminal.
 
 ### Other framewoks and tools
 * `CodeAnywhere` was the IDE used to develop the application.
