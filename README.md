@@ -377,6 +377,37 @@ A user can end up in this flow if they decide to create an expense right after c
 | When the summary is displayed, the user enters C. | The process is cancelled and the user is taken to the trip menu. | Works as expected. |
 | When the summary is displayed, the user enters Y. | The message "Expense added successfully!" is displayed and the row is added to the worksheet.<br>The the user is asked if they want to add another expense. | Works as expected. |
 
+#### See existing trips menu
+
+| Situation | Expected Outcome | Outcome |
+|-----------|------------------|---------|
+| User enters a number different than the available options. | Get the message "Invalid choice: You entered {user_input}".<br> Then the user is prompted to enter one of the options again. | Works as expected. |
+| User enters something different than a number or C. | Get the message "Invalid choice: invalid literal for int() with base 10: {user_input}"<br> Then the user is prompted to enter one of the options again. | Works as expected. |
+| User enters C. | User is taken back to the Welcome menu. | Works as expected. |
+| User enters one of the valid numbers. | The chosen trip menu is loaded, which will displayed the number of entries. | Works as expected. |
+
+#### Selected trip menu
+
+| Situation | Expected Outcome | Outcome |
+|-----------|------------------|---------|
+| User enters a number different than the available options. | Get the message "Invalid choice: You entered {user_input}".<br> Then the user is prompted to enter one of the options again. | Works as expected. |
+| User enters something different than a number or C. | Get the message "Invalid choice: invalid literal for int() with base 10: {user_input}"<br> Then the user is prompted to enter one of the options again. | Works as expected. |
+| User enters C. | User is taken back to the existing trips menu. | Works as expected. |
+| User enters 1 (See summary). | The summary of the trip is displayed.<br>. If the trip is empty there will be a message saying so and no calculations will be done.<br> If there are entries the summary will be displayed, converting the cost from the trip currency to the base currency. | Works as expected. |
+| User enters 2 (Edit trip). | If there are entries, they will be displayed and the user will have the possibility to add, edit or delete entries.<br>If there are no entries, a message will say so and the user will only be able to add entries. | Works as expected. |
+| User enters 3 (Delete trip). The entries (if any) of the trip will be displayed and the user will be asked for confirmation (entering "Y") to delete the trip. | Works as expected. |
+
+#### Edit trip
+
+| Situation | Expected Outcome | Outcome |
+|-----------|------------------|---------|
+| User enters anything different than "E", "D", "A", or "C". | The message "Invalid choice, please try again" is displayed<br> Then the user is prompted to enter one of the options again. | Works as expected. |
+| User enters "C". | The user is taken back to the selected trip menu. | Works as expected.
+| User enters "E" (if the trip has entries). | The user will be asked to enter then the number of the entry they want to edit.<br>The process is the same as described above in "Record summary". | Works as expected.
+| User enters "D" (if the trip has entries). | The user will be asked to enter then the number of the entry they want to delete.<br>The summary of the expense will be displayed and the user will need to confirm (Entering "Y) the deletion. | Works as expected.
+| User enters "A" | The "Add expense flow", as described above, starts. | Works as expected. |
+
+
 
 #### Bugs
 
