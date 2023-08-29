@@ -129,10 +129,10 @@ It displays a summary of the trip. From here, the user can only go back to the t
 #### Delete trip
 * It lists all trip entries.
 * Asks for confirmation to delete the trip. The user can either confirm the deletion or go back to the trip menu
-<details><summary>Trip summary - Without entries</summary>
+<details><summary>Delete trip - Without entries</summary>
 <img src="documentation/readme_images/delete-trip-no-entries.png">
 </details>
-<details><summary>Trip summary - With entries</summary>
+<details><summary>Delete trip - With entries</summary>
 <img src="documentation/readme_images/delete-trip-with-entries.png">
 </details>
 
