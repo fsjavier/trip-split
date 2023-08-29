@@ -423,7 +423,6 @@ A user can end up in this flow if they decide to create an expense right after c
 | User enters "A" | The "Add expense flow", as described above, starts. | Works as expected. |
 
 
-
 ### Bugs
 
 | Bug | Fix |
@@ -435,6 +434,10 @@ A user can end up in this flow if they decide to create an expense right after c
 | After deleting a trip, the deleted trip was still being displayed if the user chose to see existing trips right after deleting it, causing an error. | The variable storing the worksheets was in the global scope, so they weren't updated unless the user restarted the application. I moved the variable to the local scope of the functions that needed access to it. | 
 | An empty trip (without header) could be created if the user aborted the trip creation process after entering the name of the trip and cancelled before selecting the base currency. This would result in errors when trying to select the trip later on. | Move the worksheet creation method call until after the user has provided all necessary information. And add exception handling to the get_currency function if the user canceled before entering the currency (because otherwise the load_trip function would try to load a non existing trip). |
 | Trying to see the summary of a trip with only 1 entry caused an error. | I made a mistake assigning the index 1 instead of 0 of the dataframe to the `chosen_curr` varibale. I then replaced index 1 with 0. |
+
+#### Mistakes
+
+Especially in the beginning, I made some commits larger than they should have been and some messages were too lengthy. When I realized this, I tried to keep them smaller with more concise messages.
 
 
 ## Deployment
