@@ -94,8 +94,6 @@ def validate_user_choice(data, choices):
     """
     try:
         new_number = int(data)
-        choices_str = [str(num) for num in choices]
-        choices_str_list = ", ".join(choices_str)
         if new_number not in choices:
             raise ValueError(
                 f"You entered {new_number}."
@@ -195,7 +193,9 @@ def get_date(trip_name):
                 clear_terminal()
                 return date_obj.strftime("%d/%m/%Y")
         except ValueError:
-            print(Fore.RED + "The date entered is not valid, please try again.\n")
+            print(
+                Fore.RED + "The date entered is not valid, please try again.\n"
+            )
 
 
 def get_name(trip_name):
@@ -214,7 +214,9 @@ def get_name(trip_name):
             clear_terminal()
             return name
         except ValueError:
-            print(Fore.RED + "The name entered is not valid, please try again.\n")
+            print(
+                Fore.RED + "The name entered is not valid, please try again.\n"
+            )
 
 
 def get_concept(trip_name):
@@ -723,7 +725,10 @@ def delete_trip_entry(trip_name, entry_ind):
             + Fore.RESET + " or N to cancel:\n"
         )
         if user_choice.lower() not in ["y", "n"]:
-            print(Fore.RED + f"{user_choice} is not a valid choice, please try again.")
+            print(
+                Fore.RED +
+                f"{user_choice} is not a valid choice, please try again."
+            )
         elif user_choice.lower() == "y":
             worksheet.delete_rows(row_delete)
             print(Fore.YELLOW + "Entry successfully deleted.")
