@@ -21,22 +21,22 @@ It enables users to seamlessly add, edit, or remove trips and their costs. Addit
 ## Goals
 
 * Provide an application to track expenses, escpecially for groups.
-* It should be intuitive, providing enough information on each step.
-* Should give the option, whenever is possible, to option move back to a previous step.
-* Should give the option to make changes if a mistake is made.
-* It has to provide relevant feedback to the user when there is not enough information or a invalid data is provided.
-* It has to calculate the total cost of the trip and how much each person has spent.
+* It should be intuitive, providing enough information so that the user knows what to do in each step.
+* Should give the option, whenever it is possible, to move back to a previous step.
+* Should give the option to make changes if a mistake is noticed.
+* It needs to provide relevant feedback to the user when there is not enough information or a invalid data is provided.
+* It needs to calculate the total cost of the trip in the user's selected currency, as well as the amount each user has overpaid or underpaid.
 
 ### User Stories
 
 * As a user, I want to:
   1. Create a new trip to track expenses.
-  2. Be able to have several people adding their expenses to the trip.
+  2. Have several people adding their expenses to the trip.
   3. Have a currency conversion system to my preferred currency.
   4. See the list of existing trips.
-  5. Edit an entry if there was a mistake.
-  6. Delete an entry if it was a mistake.
-  7. Delete a trip if it was a mistake or is not any more needed.
+  5. Edit an entry if there was an error.
+  6. Delete an entry if it was an error.
+  7. Delete a trip if it was an error or is not any more needed.
   8. See how much each person has spent.
 
 
@@ -59,7 +59,7 @@ The application has been designed with the goal of having the users making one d
 ### Structure
 
 #### Welcome menu
-* Displayed when the application is launched. The user will also have the possibility to return to this menu after different interactions.
+* Displayed when the application is launched. The user will also have the possibility to return to this menu in several ways.
 * Is shows a welcome message and a short explanation of what the user can do.
 * Gives the user the possibility to choose between:
     * Create a new trip.
@@ -230,7 +230,7 @@ It displays a summary of the trip. From here, the user can only go back to the t
     6. Enter 'Y' to confirm.
 
 <details><summary>Delete expense</summary>
-<img src="documentation/readme_images/edit-expense.png">
+<img src="documentation/readme_images/delete-expense.png">
 </details>
 
 7 Delete a trip if it was a mistake or is not any more needed.
@@ -327,14 +327,14 @@ Eventually, all the code passed validation without any issues.
 | User enters a number other than 1 or 2. | Get the message "Invalid choice: You entered {user_input}".<br> Then the user is prompted to enter one of the options again. | Works as expected. |
 | User enters something different than a number. | Get the message "Invalid choice: invalid literal for int() with base 10: {user_input}"<br> Then the user is prompted to enter one of the options again. | Works as expected. |
 | User enters 1. | Trip creating process starts, where user is asked to enter the name of the trip. | Works as expected. |
-| User enters 2, when there are saved trips. | Trip creating process starts, where user is asked to enter the name of the trip. | Works as expected. |
+| User enters 2, when there are saved trips. | The list of exisiting trips is displayed. | Works as expected. |
 | User enters 2, but there are currently no saved trips. | The message "There are currently no trips" is displayed and the user is taken back to the Welcome menu. | Works as expected. |
 
 #### Create new trip menu
 
 | Situation | Expected Outcome | Outcome |
 |-----------|------------------|---------|
-| User enters a name for a trip that already exists. | The message "The {trip_name} tip already exists. Please select a different name." is displayed. | Works as expected. |
+| User enters a name for a trip that already exists. | The message "The {trip_name} trip already exists. Please select a different name." is displayed. | Works as expected. |
 | User enters a name but then enters "C" (or "c") in the select currency menu. | The message "The trip creation process has been aborted" is displayed and the user is taken back to the Welcome menu, without creating the trip. | Works as expected. |
 | User enters a name but in the select currency menu selects a number different than 1, 2, or 3. | Get the message "Invalid choice: You entered {user_input}".<br> Then the user is prompted to enter one of the options again. | Works as expected. |
 | User enters a name but in the select currency menu selects something different than a number or "C". | Get the message "Invalid choice: invalid literal for int() with base 10: {user_input}"<br> Then the user is prompted to enter one of the options again. | Works as expected. |
@@ -347,31 +347,46 @@ Eventually, all the code passed validation without any issues.
 
 A user can end up in this flow if they decide to create an expense right after creating a trip or when the want to add an expense to an exisiting trip. It will also partially apply when the user wants to edit a existing entry.
 
+*Date*
 | Situation | Expected Outcome | Outcome |
 |-----------|------------------|---------|
-| *Date* |
 | User is requested to enter a date in dd/mm/yyyy format or C to cancel and enters in a different format. | The message "The date entered is not valid, please try again." will be displayed and the user will be asked again. | Works as expected. |
-| User is requested to enter a date in dd/mm/yyyy format or C to cancel and enters a non existing date (ie 30/02/2023). | The message "The date entered is not valid, please try again." will be displayed and the user will be asked again. | Works as expected. |
+| User is requested to enter a date in dd/mm/yyyy format or C to cancel and enters a non existing date (eg. 30/02/2023). | The message "The date entered is not valid, please try again." will be displayed and the user will be asked again. | Works as expected. |
 | User is requested to enter a date in dd/mm/yyyy format or C to cancel and enters C. | The user is taken to the trip menu. | Works as expected. |
 | User is requested to enter a date in dd/mm/yyyy format or C to cancel and enters a valid date. | The user will move on to the screen, asking for the name. | Works as expected. |
-| *Name* |
+
+*Name*
+| Situation | Expected Outcome | Outcome |
+|-----------|------------------|---------|
 | User is requested to enter the name of the person paying and enters a name. | The user will move on to the screen, asking for the concept of the expense. | Works as expected. |
-| *Concept* |
+
+*Concept*
+| Situation | Expected Outcome | Outcome |
+|-----------|------------------|---------|
 | User is requested to enter the number of the concept (1, 2, 3, 4, 5, 6) or "C" (or "c") to cancel. The user enters a different number. | Get the message "Invalid choice: You entered {user_input}".<br> Then the user is prompted to enter one of the options again. | Works as expected. |
 | User is requested to enter the number of the concept (1, 2, 3, 4, 5, 6) or "C" (or "c") to cancel. The user enters something different than a number or C. | Get the message "Invalid choice: invalid literal for int() with base 10: {user_input}"<br> Then the user is prompted to enter one of the options again. | Works as expected. |
 | User is requested to enter the number of the concept (1, 2, 3, 4, 5, 6) or "C" (or "c") to cancel. User enters C. | The user is taken to the trip menu. | Works as expected. |
 | User is requested to enter the number of the concept (1, 2, 3, 4, 5, 6) or "C" (or "c") to cancel. User enters a number in the range. | The user moves on to the cost. | Works as expected. |
-| *Cost* |
+
+*Cost*
+| Situation | Expected Outcome | Outcome |
+|-----------|------------------|---------|
 | User is requested to enter the cost in the following format: 19.95 or "C" (or "c") to cancel. The user enters something different than number. | Get the message "{user_input} is not valid input, please try again.".<br> Then the user is prompted to enter the cost again. | Works as expected. |
 | User is requested to enter the cost in the following format: 19.95 or "C" (or "c") to cancel. The user enters a decimal with "," instead of ".". | Get the message "{user_input} is not valid input, please try again.".<br> Then the user is prompted to enter the cost again. | Works as expected. |
 | User is requested to enter the cost in the following format: 19.95 or "C" (or "c") to cancel. User enters C. | The user is taken to the trip menu. | Works as expected. |
 | User is requested to enter the cost in the following format: 19.95 or "C" (or "c") to cancel. User enters a valid number. | The user moves on to the currency. | Works as expected. |
-| *Currency* |
+
+*Currency*
+| Situation | Expected Outcome | Outcome |
+|-----------|------------------|---------|
 | User is requested to enter the number of the currency (1, 2, 3) or "C" (or "c") to cancel. The user enters a different number. | Get the message "Invalid choice: You entered {user_input}".<br> Then the user is prompted to enter one of the options again. | Works as expected. |
 | User is requested to enter the number of the currency (1, 2, 3) or "C" (or "c") to cancel. The user enters something different than a number or C. | Get the message "Invalid choice: invalid literal for int() with base 10: {user_input}"<br> Then the user is prompted to enter one of the options again. | Works as expected. |
 | User is requested to enter the number of the currency (1, 2, 3) or "C" (or "c") to cancel. User enters C. | The user is taken to the trip menu. | Works as expected. |
 | User is requested to enter the number of the currency (1, 2, 3) or "C" (or "c") to cancel. User enters a number in the range. | The summary of the data is displayed. | Works as expected. |
-| *Record summary* |
+
+*Record summary*
+| Situation | Expected Outcome | Outcome |
+|-----------|------------------|---------|
 | When the summary is displayed, the user enters something different than the allowed options (name of the field to edit, "Y" or "C"). | The message "The value entered is not valid. Please try again." is displayed and the user is presented again with the same information. | Works as expected. |
 | When the summary is displayed, the user enters the name of one of the fields. | The process for adding a field starts, as described above, and then the summary is displayed again. | Works as expected. |
 | When the summary is displayed, the user enters C. | The process is cancelled and the user is taken to the trip menu. | Works as expected. |
@@ -384,7 +399,7 @@ A user can end up in this flow if they decide to create an expense right after c
 | User enters a number different than the available options. | Get the message "Invalid choice: You entered {user_input}".<br> Then the user is prompted to enter one of the options again. | Works as expected. |
 | User enters something different than a number or C. | Get the message "Invalid choice: invalid literal for int() with base 10: {user_input}"<br> Then the user is prompted to enter one of the options again. | Works as expected. |
 | User enters C. | User is taken back to the Welcome menu. | Works as expected. |
-| User enters one of the valid numbers. | The chosen trip menu is loaded, which will displayed the number of entries. | Works as expected. |
+| User enters one of the valid numbers. | The chosen trip menu is loaded, which will displayed the trip menu with the number of entries. | Works as expected. |
 
 #### Selected trip menu
 
@@ -395,7 +410,7 @@ A user can end up in this flow if they decide to create an expense right after c
 | User enters C. | User is taken back to the existing trips menu. | Works as expected. |
 | User enters 1 (See summary). | The summary of the trip is displayed.<br>. If the trip is empty there will be a message saying so and no calculations will be done.<br> If there are entries the summary will be displayed, converting the cost from the trip currency to the base currency. | Works as expected. |
 | User enters 2 (Edit trip). | If there are entries, they will be displayed and the user will have the possibility to add, edit or delete entries.<br>If there are no entries, a message will say so and the user will only be able to add entries. | Works as expected. |
-| User enters 3 (Delete trip). The entries (if any) of the trip will be displayed and the user will be asked for confirmation (entering "Y") to delete the trip. | Works as expected. |
+| User enters 3 (Delete trip). | The entries (if any) of the trip will be displayed and the user will be asked for confirmation (entering "Y") to delete the trip. | Works as expected. |
 
 #### Edit trip
 
@@ -404,12 +419,12 @@ A user can end up in this flow if they decide to create an expense right after c
 | User enters anything different than "E", "D", "A", or "C". | The message "Invalid choice, please try again" is displayed<br> Then the user is prompted to enter one of the options again. | Works as expected. |
 | User enters "C". | The user is taken back to the selected trip menu. | Works as expected.
 | User enters "E" (if the trip has entries). | The user will be asked to enter then the number of the entry they want to edit.<br>The process is the same as described above in "Record summary". | Works as expected.
-| User enters "D" (if the trip has entries). | The user will be asked to enter then the number of the entry they want to delete.<br>The summary of the expense will be displayed and the user will need to confirm (Entering "Y) the deletion. | Works as expected.
+| User enters "D" (if the trip has entries). | The user will be asked to enter then the number of the entry they want to delete.<br>The summary of the expense will be displayed and the user will need to confirm (Entering "Y") the deletion. | Works as expected.
 | User enters "A" | The "Add expense flow", as described above, starts. | Works as expected. |
 
 
 
-#### Bugs
+### Bugs
 
 | Bug | Fix |
 |-----|-----|
@@ -417,7 +432,7 @@ A user can end up in this flow if they decide to create an expense right after c
 | After loading list of existing trips, entering 'C' wasn't accepted as valid input. | Add lower() method to the user's input. |
 | Trying to do arithmetic operation with data from spreadsheet caused an error. | Add the replace() method to change ',' with '.' and convert the result to float. |
 | Trying to see the summary of an empty trip caused an error. | Check first if the trip is empty before performing operations. If it's empty only display a message. |
-| After deleting a trip, the deleted trip was still being displayed if the user chose to see existing trips right after deleting it, causing an error. | The worksheets were being loaded in the global scope, so they weren't update unless the user restarted the application. I moved the variable to the local scope of the functions that needed access to it. | 
+| After deleting a trip, the deleted trip was still being displayed if the user chose to see existing trips right after deleting it, causing an error. | The variable storing the worksheets was in the global scope, so they weren't updated unless the user restarted the application. I moved the variable to the local scope of the functions that needed access to it. | 
 | An empty trip (without header) could be created if the user aborted the trip creation process after entering the name of the trip and cancelled before selecting the base currency. This would result in errors when trying to select the trip later on. | Move the worksheet creation method call until after the user has provided all necessary information. And add exception handling to the get_currency function if the user canceled before entering the currency (because otherwise the load_trip function would try to load a non existing trip). |
 | Trying to see the summary of a trip with only 1 entry caused an error. | I made a mistake assigning the index 1 instead of 0 of the dataframe to the `chosen_curr` varibale. I then replaced index 1 with 0. |
 
