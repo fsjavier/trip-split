@@ -50,7 +50,7 @@ def welcome_menu():
 
     # welcome_art()
     welcome_message = pyfiglet.figlet_format(
-        "Welcome\n             to\nTrip Split"
+        "Welcome to\n\tTrip Split"
         )
     print(welcome_message)
     print("Effortlessly track trip expenses:\n")
@@ -101,7 +101,7 @@ def validate_user_choice(data, choices):
                 f"You entered {new_number}."
             )
     except ValueError as e:
-        print(Fore.RED + f"\nInvalid choice: {e}\n")
+        print(Fore.RED + "\nInvalid choice: " + Fore.RESET + f"{e}\n")
         return (False, 0)
 
     return (True, new_number)
@@ -131,7 +131,7 @@ def create_new_trip(name):
     worksheet.append_row(header)
     worksheet.update("J1", [[chosen_currency]])
 
-    print(f"{name} successfully created!")
+    print(Fore.YELLOW + f"{name} successfully created!")
     time.sleep(1.5)
 
     while True:
@@ -145,7 +145,8 @@ def create_new_trip(name):
                     f"You selected {add_expense}. Please select Y or N"
                 )
         except ValueError as e:
-            print(Fore.RED + f"Invalid option: {e}")
+            print(Fore.RED + "Invalid option: " + Fore.RESET + f"{e}")
+            time.sleep(1.5)
         else:
             if add_expense.lower() == "n":
                 clear_terminal()
@@ -194,7 +195,7 @@ def get_date(trip_name):
                 clear_terminal()
                 return date_obj.strftime("%d/%m/%Y")
         except ValueError:
-            print("The date entered is not valid, please try again.\n")
+            print(Fore.RED + "The date entered is not valid, please try again.\n")
 
 
 def get_name(trip_name):
@@ -213,7 +214,7 @@ def get_name(trip_name):
             clear_terminal()
             return name
         except ValueError:
-            print("The name entered is not valid, please try again.\n")
+            print(Fore.RED + "The name entered is not valid, please try again.\n")
 
 
 def get_concept(trip_name):
@@ -273,7 +274,7 @@ def get_cost(trip_name):
             clear_terminal()
             return cost_float
         except ValueError:
-            print(f"{cost} is not valid input, please try again.\n")
+            print(Fore.RED + f"{cost} is not valid input, please try again.\n")
 
 
 def get_currency(trip_name):
@@ -621,7 +622,7 @@ def edit_trip(trip_name, df):
                 clear_terminal()
                 print(f"You are creating a new entry for {trip_name}")
                 create_expense(trip_name)
-                print("Expense added successfully!")
+                print(Fore.YELLOW + "Expense added successfully!")
                 time.sleep(1)
                 select_trip(trip_name)
     else:
@@ -656,7 +657,7 @@ def edit_trip(trip_name, df):
                 clear_terminal()
                 print(f"You are creating a new entry for {trip_name}")
                 create_expense(trip_name)
-                print("Expense added successfully!")
+                print(Fore.YELLOW + "Expense added successfully!")
                 time.sleep(1)
                 select_trip(trip_name)
 
@@ -718,14 +719,14 @@ def delete_trip_entry(trip_name, entry_ind):
     while True:
         user_choice = input(
             "Enter "
-            + Fore.RED + "Y"
-            + Fore.WHITE + " to delete or N to cancel:\n"
+            + Fore.RED + "Y to delete"
+            + Fore.RESET + " or N to cancel:\n"
         )
         if user_choice.lower() not in ["y", "n"]:
-            print(f"{user_choice} is not a valid choice, please try again.")
+            print(Fore.RED + f"{user_choice} is not a valid choice, please try again.")
         elif user_choice.lower() == "y":
             worksheet.delete_rows(row_delete)
-            print("Entry successfully deleted.")
+            print(Fore.YELLOW + "Entry successfully deleted.")
             time.sleep(1)
             clear_terminal()
             select_trip(trip_name)
@@ -777,7 +778,7 @@ def overwrite_expense(worksheet, expense, row_edit):
     expense_arr_write.append(chosen_currency)
 
     worksheet.update(f"A{row_edit}:G{row_edit}", [expense_arr_write])
-    print("Expense successfully edited!")
+    print(Fore.YELLOW + "Expense successfully edited!")
 
 
 def delete_trip(trip_name, df):
@@ -788,12 +789,12 @@ def delete_trip(trip_name, df):
     worksheet = SHEET.worksheet(trip_name)
     show_trip_entries(trip_name, df)
     print(f"Are you sure you want to delete it?\n")
-    print("(This action is not reversible)")
+    print(Fore.YELLOW + "This action is not reversible")
     while True:
         user_choice = input(
             "Enter "
-            + Fore.RED + "Y"
-            + Fore.WHITE + " to delete or N to cancel:\n"
+            + Fore.RED + "Y to delete"
+            + Fore.RESET + " or N to cancel:\n"
         )
         if user_choice.lower() not in ["y", "n"]:
             print(Fore.RED + "Invalid choice, please try again.\n")
@@ -801,7 +802,7 @@ def delete_trip(trip_name, df):
             select_trip(trip_name)
         elif user_choice.lower() == "y":
             SHEET.del_worksheet(worksheet)
-            print(f"{trip_name} successfully deleted!")
+            print(Fore.YELLOW + f"{trip_name} successfully deleted!")
             time.sleep(2)
             clear_terminal()
             welcome_menu()
