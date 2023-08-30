@@ -48,7 +48,6 @@ def welcome_menu():
     """
     worksheets = SHEET.worksheets()
 
-    # welcome_art()
     welcome_message = pyfiglet.figlet_format(
         "Welcome to\n\tTrip Split"
         )
