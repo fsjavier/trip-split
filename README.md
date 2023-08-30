@@ -465,6 +465,7 @@ The project has been deployed using Heroku, following the below steps:
 * How to use enumerate function - [W3Schools](https://www.w3schools.com/python/ref_func_enumerate.asp)
 * Working with pandas dataframes - [Pandas](https://pandas.pydata.org/docs/user_guide/10min.html)
 * How to use the string replace method - [W3Schools](https://www.w3schools.com/python/ref_string_replace.asp)
+* How to generate Google credentials and connect with Google Sheets from CI Walkthrough Project.
 * [gspread API reference](https://docs.gspread.org/en/v5.10.0/index.html)
 * How to use the colorama module - [linuxhint](https://linuxhint.com/colorama-python/)
 * How to use thr pyfiglet module - [GeeksforGeeks](https://www.geeksforgeeks.org/python-ascii-art-using-pyfiglet-module/)
