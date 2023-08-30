@@ -122,7 +122,7 @@ It displays a summary of the trip. From here, the user can only go back to the t
 <details><summary>Edit trip - Without entries</summary>
 <img src="documentation/readme_images/edit-trip-no-entries.png">
 </details>
-<details><summary>Trip trip - With entries</summary>
+<details><summary>Edit trip - With entries</summary>
 <img src="documentation/readme_images/edit-trip-with-entries.png">
 </details>
 
@@ -294,7 +294,7 @@ For each decision users have to make, where input is needed, a validation system
 * `os` was used to clear the terminal.
 * `datetime` was used to make sure users enter valid dates.
 * `time` was used to delay certain actions, as a way to give users a bit more time to better understand what happens.
-* `pandas` was used to create dataframes with the data in the spreadsheet. It makes easier to summarize data and do arithmetic operation.
+* `pandas` was used to create dataframes with the data in the spreadsheet. It makes easier to summarize data and perform arithmetic operations.
 * `colorama` was used to give users visual feedback using colors.
 * `pyfiglet` was used to create the ASCII Art for the welcome message.
 * `warnings` was used to avoid deprecation warning messages in the terminal.
@@ -420,7 +420,7 @@ A user can end up in this flow if they decide to create an expense right after c
 | User enters "C". | The user is taken back to the selected trip menu. | Works as expected.
 | User enters "E" (if the trip has entries). | The user will be asked to enter then the number of the entry they want to edit.<br>The process is the same as described above in "Record summary". | Works as expected.
 | User enters "D" (if the trip has entries). | The user will be asked to enter then the number of the entry they want to delete.<br>The summary of the expense will be displayed and the user will need to confirm (Entering "Y") the deletion. | Works as expected.
-| User enters "A" | The "Add expense flow", as described above, starts. | Works as expected. |
+| User enters "A". | The "Add expense flow", as described above, starts. | Works as expected. |
 
 
 ### Bugs
